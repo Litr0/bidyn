@@ -67,7 +67,7 @@ def load_dataset_csv(dataset_name, group="train", variant=None, get_edges=True,
     node_to_idx = {u: i for i, u in enumerate(nodes)}
     edges = [(node_to_idx[u], node_to_idx[v], t) for u, v, t in edges]
 
-    mat_flat = nx.to_scipy_sparse_matrix(graph, nodelist=nodes)
+    mat_flat = nx.to_scipy_sparse_array(graph, nodelist=nodes)
     labels = np.array([1 if x in users and x in bad_users else 0 for x in
         nodes])
     n_asins = len(users)
