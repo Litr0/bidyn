@@ -33,7 +33,8 @@ def load_dataset_csv(dataset_name, group="train", variant=None, get_edges=True,
         # Use in case to only use 10% of the data
         """ lines = f.readlines()
         ten_percent_lines = int(len(lines) * 0.1)
-        f  = lines[:ten_percent_lines] """
+        random.shuffle(lines)
+        f = lines[:ten_percent_lines] """
         idx, line_num = 0, 0
         prev_time = None
         for line in f:
