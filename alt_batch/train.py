@@ -357,10 +357,8 @@ def train(args, dataset):
                             select = "u" if side_name == "u" else "v-{}".format(args.v_objective)
                             if not (side_name == "v" and args.v_objective in
                                 ["mean", "gcnprop", "imppool"]):
-                                print("Getting embs")
                                 embs, out = model(batch_t, side_feats_batch,
                                     lengths, select=select)
-                                print("Got embs: ", type(embs), embs.shape)
                             if side_name == "u":
                                 train_mask = u_train_mask[batch_idxs]
                                 val_mask = u_val_mask[batch_idxs]
@@ -524,7 +522,6 @@ def train(args, dataset):
 
                             embs, out = model(batch_t, feats, lengths, select="u" if
                                 side_name == "u" else "v-clf")
-                            print("Got embs: ", type(embs), embs.shape)
                             embs_sides[side_name] = embs
                         us_l = embs_sides["u"]
                         vs_l = embs_sides["v"]
@@ -566,7 +563,6 @@ def train(args, dataset):
 
                             embs, out = model(batch_t, feats, lengths, select="u" if
                                 side_name == "u" else "v-clf")
-                            print("Got embs: ", type(embs), embs.shape)
                             embs_sides[side_name] = embs
                             idxs_sides[side_name] = batch_idxs
                         us_l = embs_sides["u"].unsqueeze(1).expand(
