@@ -98,8 +98,6 @@ class BipartiteAltBatcher(nn.Module):
 def load_dataset(args):
     dataset = data.load_dataset(args.dataset, get_edges=True)
 
-    print("dataset: ", dataset)
-
     u_to_idx, v_to_idx, us_to_edges, vs_to_edges = data.get_edge_lists(dataset)
 
     u_labels = torch.zeros(len(us_to_edges), dtype=torch.long)
