@@ -112,7 +112,6 @@ def load_dataset(args):
     train_amt = args.train_amt
     train_us = set(random.sample(range(len(us)), int(len(us)*train_amt)))
     print("TRAINING AMT:", train_amt)
-    print("TRAIN US:", train_us)
     val_us = set(random.sample([x for x in range(len(us)) if x not in
         train_us], int(len(us)*(1-train_amt)/2)))
     test_us = (us - train_us) - val_us
