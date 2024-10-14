@@ -119,6 +119,15 @@ def load_dataset(args):
     u_test_mask = torch.tensor([u in test_us for u in range(len(us))])
     feat_dim = len(us_to_edges[0][0][2])
 
+    # Normalize the features
+    all_feats = [feat for edges in us_to_edges for _, _, feat in edges]
+    all_feats = torch.stack(all_feats)
+    mean = all_feats.mean(dim=0)
+    std = all_feats.std(dim=0)
+    for i in range(len(us_to_edges)):
+        for j in range(len(us_to_edges[i])):
+            us_to_edges[i][j] = (us_to_edges[i][j][0], us_to_edges[i][j][1], (us_to_edges[i][j][2] - mean) / std)
+
     if args.use_discrete_time_batching:
         mats = dataset["mats"]
         max_time = max(list(mats.keys()))
@@ -361,7 +370,6 @@ def train(args, dataset):
                                     lengths, select=select)
                             if side_name == "u":
                                 train_mask = u_train_mask[batch_idxs]
-                                print("Train mask sum A:", torch.sum(train_mask))
                                 val_mask = u_val_mask[batch_idxs]
                                 test_mask = u_test_mask[batch_idxs]
                                 logp = F.log_softmax(out, dim=1)
@@ -369,12 +377,10 @@ def train(args, dataset):
                                 if group == "train":
                                     train_loss = F.nll_loss(logp[train_mask],
                                         labels[train_mask])
-                                    print("Train loss A:", format(train_loss.item()))
                                     train_logp.append(logp[train_mask].detach().cpu())
                                     train_labels.append(labels[train_mask].detach().cpu())
                                     if torch.sum(train_mask) > 0:
                                         train_loss_total += train_loss.item()
-                                        print("Train loss total A:", format(train_loss_total))
                                 else:
                                     val_loss = F.nll_loss(logp[val_mask], labels[val_mask])
                                     val_logp.append(logp[val_mask].detach().cpu())
