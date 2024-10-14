@@ -120,7 +120,7 @@ def load_dataset(args):
     feat_dim = len(us_to_edges[0][0][2])
 
     # Normalize the features
-    all_feats = [feat for edges in us_to_edges for _, _, feat in edges]
+    all_feats = torch.tensor([feat for edges in us_to_edges for _, _, feat in edges])
     all_feats = torch.stack(all_feats)
     mean = all_feats.mean(dim=0)
     std = all_feats.std(dim=0)
