@@ -593,6 +593,7 @@ def train(args, dataset):
                                 labels)
                             ).type(torch.long).view(-1).to(device)
                         train_loss = link_criterion(logp, labels)
+                        print("TRAIN Loss:", train_loss.item())
                         train_logp.append(logp.detach().cpu())
                         train_labels.append(labels.detach().cpu())
 
