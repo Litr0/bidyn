@@ -109,14 +109,10 @@ def load_dataset(args):
     print("NUMBER OF POSITIVE LABELS:", n_pos_labels)
     random.seed(2020)
     us = set(range(len(u_to_idx)))
-    us = {u / len(u_to_idx) for u in us}
     train_amt = args.train_amt
     train_us = set(random.sample(range(len(us)), int(len(us)*train_amt)))
-    train_us = {u / len(us) for u in train_us}
-    print("TRAINING AMT:", train_amt)
     val_us = set(random.sample([x for x in range(len(us)) if x not in
         train_us], int(len(us)*(1-train_amt)/2)))
-    val_us = {u / len(us) for u in val_us}
     test_us = (us - train_us) - val_us
     u_train_mask = torch.tensor([u in train_us for u in range(len(us))])
     u_val_mask = torch.tensor([u in val_us for u in range(len(us))])
