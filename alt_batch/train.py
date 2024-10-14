@@ -108,7 +108,7 @@ def load_dataset(args):
             n_pos_labels += 1
     print("NUMBER OF POSITIVE LABELS:", n_pos_labels)
     random.seed(2020)
-    us = set(range(len(u_to_idx)))
+    us = set(range(len(u_to_idx))) / len(u_to_idx)
     train_amt = args.train_amt
     train_us = set(random.sample(range(len(us)), int(len(us)*train_amt)))
     train_us = {u / len(us) for u in train_us}
