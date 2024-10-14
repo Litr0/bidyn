@@ -361,6 +361,7 @@ def train(args, dataset):
                                     lengths, select=select)
                             if side_name == "u":
                                 train_mask = u_train_mask[batch_idxs]
+                                print("Train mask sum A:", torch.sum(train_mask))
                                 val_mask = u_val_mask[batch_idxs]
                                 test_mask = u_test_mask[batch_idxs]
                                 logp = F.log_softmax(out, dim=1)
@@ -368,10 +369,12 @@ def train(args, dataset):
                                 if group == "train":
                                     train_loss = F.nll_loss(logp[train_mask],
                                         labels[train_mask])
+                                    print("Train loss A:", format(train_loss.item()))
                                     train_logp.append(logp[train_mask].detach().cpu())
                                     train_labels.append(labels[train_mask].detach().cpu())
                                     if torch.sum(train_mask) > 0:
                                         train_loss_total += train_loss.item()
+                                        print("Train loss total A:", format(train_loss_total))
                                 else:
                                     val_loss = F.nll_loss(logp[val_mask], labels[val_mask])
                                     val_logp.append(logp[val_mask].detach().cpu())
@@ -595,8 +598,6 @@ def train(args, dataset):
                         train_loss = link_criterion(logp, labels)
                         train_logp.append(logp.detach().cpu())
                         train_labels.append(labels.detach().cpu())
-                        print("Train loss PRUEBA: {:.4f}".format(
-                        train_loss_total))  
                         train_loss_total += train_loss.item()
                         pbar.set_description("Loss: {:.4f}".format(train_loss.item()))
                         train_loss.backward()
