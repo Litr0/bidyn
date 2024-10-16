@@ -2,3 +2,5 @@ out/
 data/
 __pycache__/
 myenv/
+link-embs.png
+clf-embs.png
