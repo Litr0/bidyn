@@ -318,7 +318,7 @@ def train(args, dataset):
     task_schedule = util.make_task_schedule(args.objective, args.n_epochs)
     for epoch, tasks in enumerate(task_schedule):
         task = tasks[0]   # only use training task from schedule (always eval on abuse)
-        train_loss_total, train_logp, train_labels = 0, [], []
+        train_loss_total, train_loss_total_vec, train_logp, train_labels = 0, [], [], []
         val_loss_total, val_logp, val_labels = 0, [], []
         test_logp, test_labels = [], []
         train_logp_vs, train_labels_vs = [], []
@@ -372,6 +372,7 @@ def train(args, dataset):
                                     train_labels.append(labels[train_mask].detach().cpu())
                                     if torch.sum(train_mask) > 0:
                                         train_loss_total += train_loss.item()
+                                        train_loss_total_vec.append(train_loss.item())
                                 else:
                                     val_loss = F.nll_loss(logp[val_mask], labels[val_mask])
                                     val_logp.append(logp[val_mask].detach().cpu())
@@ -433,7 +434,7 @@ def train(args, dataset):
                                     val_labels_vs.append(labels[val_mask].detach().cpu())
                                     if torch.sum(train_mask) > 0:
                                         train_loss_total += train_loss.item()
-
+                                        train_loss_total_vec.append(train_loss.item())
                                     train_loss.backward()
                                     opt[side_name].step()
                                 elif args.v_objective == "link":
@@ -465,7 +466,7 @@ def train(args, dataset):
                                         labels)
                                     if torch.sum(train_mask) > 0:
                                         train_loss_total += train_loss.item()
-
+                                        train_loss_total_vec.append(train_loss.item())
                                     train_loss.backward()
                                     opt[side_name].step()
 
@@ -535,6 +536,7 @@ def train(args, dataset):
                         train_labels.append(labels[s_idx:e_idx].detach().cpu())
 
                         train_loss_total += train_loss.item()
+                        train_loss_total_vec.append(train_loss.item())
                         pbar.set_description("Loss: {:.4f}".format(train_loss.item()))
                         train_loss.backward()
                         opt["u"].step()
@@ -594,6 +596,7 @@ def train(args, dataset):
                         train_logp.append(logp.detach().cpu())
                         train_labels.append(labels.detach().cpu())
                         train_loss_total += train_loss.item()
+                        train_loss_total_vec.append(train_loss.item())
                         pbar.set_description("Loss: {:.4f}".format(train_loss.item()))
                         train_loss.backward()
                         opt["u"].step()
@@ -626,6 +629,9 @@ def train(args, dataset):
                 print("Best validation loss")
             print("Train loss: {:.4f}. Val loss: {:.4f}. ".format(
                 train_loss_total, val_loss_total))
+            train_loss_total_vec_sum = sum(train_loss_total_vec)
+            normalized_train_loss = train_loss_total_vec_sum / len(pbar)
+            print("Normalized train loss: {:.4f}".format(normalized_train_loss))
             print("Train AUROC: {:.4f}. Val AUROC: {:.4f}. "
                 "Test AUROC: {:.4f}".format(train_auroc, val_auroc, test_auroc))
             if args.v_objective == "clf":
@@ -640,6 +646,9 @@ def train(args, dataset):
         else:
             print("Train loss: {:.4f}. Train AUROC: {:.4f}".format(
                 train_loss_total, train_auroc))
+            train_loss_total_vec_sum = sum(train_loss_total_vec)
+            normalized_train_loss = train_loss_total_vec_sum / len(pbar)
+            print("Normalized train loss: {:.4f}".format(normalized_train_loss))
 
         # analyze embs
         if args.analyze and (task == "link" or is_best):
