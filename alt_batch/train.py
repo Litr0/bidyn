@@ -319,7 +319,7 @@ def train(args, dataset):
     for epoch, tasks in enumerate(task_schedule):
         task = tasks[0]   # only use training task from schedule (always eval on abuse)
         train_loss_total, train_loss_total_vec, train_logp, train_labels = 0, [], [], []
-        val_loss_total, val_logp, val_labels = 0, [], []
+        val_loss_total, val_loss_total_vec, val_logp, val_labels = 0, [], [], []
         test_logp, test_labels = [], []
         train_logp_vs, train_labels_vs = [], []
         val_logp_vs, val_labels_vs = [], []
@@ -379,6 +379,7 @@ def train(args, dataset):
                                     val_labels.append(labels[val_mask].detach().cpu())
                                     if torch.sum(val_mask) > 0:
                                         val_loss_total += val_loss.item()
+                                        val_loss_total_vec.append(val_loss.item())
                                     test_logp.append(logp[test_mask].detach().cpu())
                                     test_labels.append(labels[test_mask].detach().cpu())
 
@@ -631,7 +632,10 @@ def train(args, dataset):
                 train_loss_total, val_loss_total))
             train_loss_total_vec_sum = sum(train_loss_total_vec)
             normalized_train_loss = train_loss_total_vec_sum / len(pbar)
+            val_loss_total_vec_sum = sum(val_loss_total_vec)
+            normalized_val_loss = val_loss_total_vec_sum / len(pbar)
             print("Normalized train loss: {:.4f}".format(normalized_train_loss))
+            print("Normalized val loss: {:.4f}".format(normalized_val_loss))
             print("Train AUROC: {:.4f}. Val AUROC: {:.4f}. "
                 "Test AUROC: {:.4f}".format(train_auroc, val_auroc, test_auroc))
             if args.v_objective == "clf":
