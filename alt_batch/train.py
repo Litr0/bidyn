@@ -631,9 +631,9 @@ def train(args, dataset):
             print("Train loss: {:.4f}. Val loss: {:.4f}. ".format(
                 train_loss_total, val_loss_total))
             train_loss_total_vec_sum = sum(train_loss_total_vec)
-            normalized_train_loss = train_loss_total_vec_sum / len(pbar)
+            normalized_train_loss = train_loss_total_vec_sum / n_batches
             val_loss_total_vec_sum = sum(val_loss_total_vec)
-            normalized_val_loss = val_loss_total_vec_sum / len(pbar)
+            normalized_val_loss = val_loss_total_vec_sum / n_batches
             print("Normalized train loss: {:.4f}".format(normalized_train_loss))
             print("Normalized val loss: {:.4f}".format(normalized_val_loss))
             print("Train AUROC: {:.4f}. Val AUROC: {:.4f}. "
@@ -651,7 +651,7 @@ def train(args, dataset):
             print("Train loss: {:.4f}. Train AUROC: {:.4f}".format(
                 train_loss_total, train_auroc))
             train_loss_total_vec_sum = sum(train_loss_total_vec)
-            normalized_train_loss = train_loss_total_vec_sum / len(pbar)
+            normalized_train_loss = train_loss_total_vec_sum / n_batches
             print("Normalized train loss: {:.4f}".format(normalized_train_loss))
 
         # analyze embs
