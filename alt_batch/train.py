@@ -661,12 +661,22 @@ def train(args, dataset):
             embs_2d = TSNE().fit_transform(embs)
             xs, ys = zip(*embs_2d)
             xs, ys = list(xs), list(ys)
-            colors = ["red" if l == 1 else "blue" for l in u_labels]
-            colors += ["green"]*(len(v_embs)-1)
+            
+            # Assign colors based on user_id with state label = 1 and their associated item
+            colors = []
+            for i, label in enumerate(u_labels):
+                if label == 1:
+                    associated_item = us_to_edges[i][0][1]  # Assuming the first item in the edge list
+                    color = plt.cm.get_cmap('tab20')(associated_item % 20)  # Use a colormap to get different colors
+                    colors.append(color)
+                else:
+                    colors.append("blue")
+                colors += ["green"] * (len(v_embs) - 1)
+            
             plt.scatter(xs, ys, color=colors, alpha=0.3)
             xrs = [x for x, l in zip(xs, u_labels) if l == 1]
             yrs = [y for y, l in zip(ys, u_labels) if l == 1]
-            plt.scatter(xrs, yrs, color="red", alpha=0.9)
+            plt.scatter(xrs, yrs, color=[c for c, l in zip(colors, u_labels) if l == 1], alpha=0.9)
 
             if task == "link":
                 fn = "link-embs.png"
