@@ -657,6 +657,8 @@ def train(args, dataset):
         # analyze embs
         if args.analyze and (task == "link" or is_best):
             from sklearn.manifold import TSNE
+            u_label_counts = Counter(u_labels.numpy())
+            print("u_label_counts:", u_label_counts)
             embs = torch.cat((u_embs[:-1], v_embs[:-1])).detach().cpu().numpy()
             embs_2d = TSNE().fit_transform(embs)
             xs, ys = zip(*embs_2d)
@@ -669,8 +671,6 @@ def train(args, dataset):
             plt.scatter(xrs, yrs, color="red", alpha=0.9) """
 
             colors = []
-            u_label_counts = Counter(u_labels.numpy())
-            print("u_label_counts:", u_label_counts)
             for i, label in enumerate(u_labels):
                 if label == 1:
                     associated_item = us_to_edges[i][0][1]  # Assuming the first item in the edge list
