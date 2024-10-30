@@ -681,6 +681,7 @@ def train(args, dataset):
             colors += ["green"] * (len(v_embs) - 1)
             color_counts = Counter(colors)
             print("Color counts:", color_counts)
+            print("Number of unique colors:", len(set(colors)))
             plt.scatter(xs, ys, color=colors, alpha=0.3)
             xrs = [x for x, l in zip(xs, u_labels) if l == 1]
             yrs = [y for y, l in zip(ys, u_labels) if l == 1]
