@@ -657,7 +657,9 @@ def train(args, dataset):
         # analyze embs
         if args.analyze and (task == "link" or is_best):
             from sklearn.manifold import TSNE
+            print(us_to_edges[0][0][0])
             print(us_to_edges[0][0][1])
+            print(us_to_edges[0][0][2])
             embs = torch.cat((u_embs[:-1], v_embs[:-1])).detach().cpu().numpy()
             embs_2d = TSNE().fit_transform(embs)
             xs, ys = zip(*embs_2d)
