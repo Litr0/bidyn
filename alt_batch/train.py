@@ -657,9 +657,6 @@ def train(args, dataset):
         # analyze embs
         if args.analyze and (task == "link" or is_best):
             from sklearn.manifold import TSNE
-            print(us_to_edges[0][0][0])
-            print(us_to_edges[0][0][1])
-            print(us_to_edges[0][0][2])
             embs = torch.cat((u_embs[:-1], v_embs[:-1])).detach().cpu().numpy()
             embs_2d = TSNE().fit_transform(embs)
             xs, ys = zip(*embs_2d)
@@ -679,7 +676,7 @@ def train(args, dataset):
                     colors.append(color)
                 else:
                     colors.append("blue")
-                colors += ["green"] * (len(v_embs) - 1)
+            colors += ["green"] * (len(v_embs) - 1)
             print(colors)
             plt.scatter(xs, ys, color=colors, alpha=0.3)
             xrs = [x for x, l in zip(xs, u_labels) if l == 1]
