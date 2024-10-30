@@ -657,26 +657,27 @@ def train(args, dataset):
         # analyze embs
         if args.analyze and (task == "link" or is_best):
             from sklearn.manifold import TSNE
-            """ u_label_counts = Counter(u_labels.numpy())
+            u_label_counts = Counter(u_labels.numpy())
             print("u_label_counts:", u_label_counts)
             print("len v_to_edges:", len(vs_to_edges))   
             print("len v_to_idx:", len(v_to_idx))
-            print("v-to-idx:", v_to_idx)  """
+            print("v-to-idx:", v_to_idx) 
             embs = torch.cat((u_embs[:-1], v_embs[:-1])).detach().cpu().numpy()
             embs_2d = TSNE().fit_transform(embs)
             xs, ys = zip(*embs_2d)
             xs, ys = list(xs), list(ys)
-            colors = ["red" if l == 1 else "blue" for l in u_labels]
+            """ colors = ["red" if l == 1 else "blue" for l in u_labels]
             colors += ["green"]*(len(v_embs)-1)
             plt.scatter(xs, ys, color=colors, alpha=0.3)
             xrs = [x for x, l in zip(xs, u_labels) if l == 1]
             yrs = [y for y, l in zip(ys, u_labels) if l == 1]
-            plt.scatter(xrs, yrs, color="red", alpha=0.9)
-
-            """ colors = []
+            plt.scatter(xrs, yrs, color="red", alpha=0.9) """
+            colors = []
+            items = []
             for i, label in enumerate(u_labels):
                 if label == 1:
                     associated_item = us_to_edges[i][0][1]  # Assuming the first item in the edge list
+                    items.append(associated_item)
                     color = plt.cm.get_cmap('tab20')(associated_item % 20)  # Use a colormap to get different colors
                     colors.append(color)
                 else:
@@ -685,10 +686,12 @@ def train(args, dataset):
             color_counts = Counter(colors)
             print("Color counts:", color_counts)
             print("Number of unique colors:", len(set(colors)))
+            print("Items:", items)
+            print("unique items:", len(set(items)))  
             plt.scatter(xs, ys, color=colors, alpha=0.3)
             xrs = [x for x, l in zip(xs, u_labels) if l == 1]
             yrs = [y for y, l in zip(ys, u_labels) if l == 1]
-            plt.scatter(xrs, yrs, color=[c for c, l in zip(colors, u_labels) if l == 1], alpha=0.9) """
+            plt.scatter(xrs, yrs, color=[c for c, l in zip(colors, u_labels) if l == 1], alpha=0.9)
 
             if task == "link":
                 fn = "link-embs.png"
