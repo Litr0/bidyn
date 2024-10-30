@@ -677,7 +677,6 @@ def train(args, dataset):
                 else:
                     colors.append("blue")
             colors += ["green"] * (len(v_embs) - 1)
-            print(colors)
             plt.scatter(xs, ys, color=colors, alpha=0.3)
             xrs = [x for x, l in zip(xs, u_labels) if l == 1]
             yrs = [y for y, l in zip(ys, u_labels) if l == 1]
