@@ -669,7 +669,7 @@ def train(args, dataset):
             plt.scatter(xrs, yrs, color="red", alpha=0.9) """
 
             colors = []
-            print(u_labels.count())
+            print(u_labels)
             for i, label in enumerate(u_labels):
                 if label == 1:
                     associated_item = us_to_edges[i][0][1]  # Assuming the first item in the edge list
