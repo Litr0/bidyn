@@ -673,10 +673,10 @@ def train(args, dataset):
                     colors.append("blue")
                 colors += ["green"] * (len(v_embs) - 1)
             
-            plt.scatter(xs, ys, color=colors, alpha=0.3)
+            plt.scatter(xs, ys, c=colors[:len(xs)], alpha=0.3)
             xrs = [x for x, l in zip(xs, u_labels) if l == 1]
             yrs = [y for y, l in zip(ys, u_labels) if l == 1]
-            plt.scatter(xrs, yrs, color=[c for c, l in zip(colors, u_labels) if l == 1], alpha=0.9)
+            plt.scatter(xrs, yrs, c=[c for c, l in zip(colors, u_labels) if l == 1], alpha=0.9)
 
             if task == "link":
                 fn = "link-embs.png"
