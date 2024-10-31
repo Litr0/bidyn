@@ -48,7 +48,6 @@ def load_dataset_csv(dataset_name, group="train", variant=None, get_edges=True,
             label = int(toks[3])
             labels_items.append((label, toks[1]))
             if label == 1:
-                print((label, toks[1]))
                 bad_users.add(user)
                 bad_edges.add(idx)
             user, item = toks[:2]
@@ -100,6 +99,7 @@ def load_dataset_csv(dataset_name, group="train", variant=None, get_edges=True,
         "labels_items": labels_items,
         "name": dataset_name
     }
+    print(labels_items)
     return d
 
 def get_edge_lists(dataset):
