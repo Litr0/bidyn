@@ -99,9 +99,6 @@ def load_dataset_csv(dataset_name, group="train", variant=None, get_edges=True,
         "labels_items": labels_items,
         "name": dataset_name
     }
-    unique_items = set(int(item) for _, item in labels_items)
-    unique_items = sorted(unique_items)
-    print("Unique items:", unique_items)
     return d
 
 def get_edge_lists(dataset):
