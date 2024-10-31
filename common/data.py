@@ -46,13 +46,15 @@ def load_dataset_csv(dataset_name, group="train", variant=None, get_edges=True,
             prev_time = time
             line_num += 1
             label = int(toks[3])
+            labels_items.append((label, toks[1]))
             if label == 1:
+                print("bad user", toks[0])
+                print("bad item", toks[1])
+                print("labels_items", labels_items)
                 bad_users.add(user)
                 bad_edges.add(idx)
-                labels_items.append((label, toks[1]))
             user, item = toks[:2]
             user, item = "A" + user, "B" + item
-            labels_items.append((label, toks[1]))
             node_types[user] = 0
             node_types[item] = 1
             feats = [float(x) for x in toks[4:]]
