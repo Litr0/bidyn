@@ -184,8 +184,8 @@ def load_dataset(args):
     else:
         v_labels = None
 
-    print(feat_dim, "EDGE FEATURE DIM")
     print(us_to_edges)
+    print(feat_dim, "EDGE FEATURE DIM")
     return (us_to_edges, vs_to_edges, u_labels, v_labels, train_us, u_train_mask,
         u_val_mask, u_test_mask, feat_dim, event_counts_u, event_counts_v,
         u_to_idx, v_to_idx, mat_flat, u_feats, v_feats, bad_items_idx)
