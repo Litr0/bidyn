@@ -110,7 +110,6 @@ def load_dataset(args):
             n_pos_labels += 1
     for v, i in v_to_idx.items():
         if dataset["labels"][v] == 1:
-            n_colors += 1
             if dataset["labels_items"][v][1] not in bad_items:
                 bad_items.append(dataset["labels_items"][u][1])
                 n_colors += 1
