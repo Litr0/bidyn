@@ -100,6 +100,7 @@ def load_dataset_csv(dataset_name, group="train", variant=None, get_edges=True,
         "name": dataset_name
     }
     unique_items = set(item for _, item in labels_items)
+    unique_items = sorted(unique_items)
     print("Unique items:", unique_items)
     return d
 
