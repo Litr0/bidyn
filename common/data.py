@@ -49,7 +49,7 @@ def load_dataset_csv(dataset_name, group="train", variant=None, get_edges=True,
             if label == 1:
                 bad_users.add(user)
                 bad_edges.add(idx)
-                bad_items.add(item)
+                bad_items.add(toks[1])
             user, item = toks[:2]
             user, item = "A" + user, "B" + item
             node_types[user] = 0
