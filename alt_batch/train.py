@@ -115,7 +115,6 @@ def load_dataset(args):
                 n_colors += 1
     print("NUMBER OF POSITIVE LABELS:", n_pos_labels)
     print("NUMBER OF BAD ITEMS:", len(bad_items))
-    print("NUMBER OF COLORS:", n_colors)
     print("BAD ITEMS:", bad_items)
     bad_items_idx = []
     for bad_item in bad_items:
@@ -670,7 +669,6 @@ def train(args, dataset):
         if args.analyze and (task == "link" or is_best):
             from sklearn.manifold import TSNE
             u_label_counts = Counter(u_labels.numpy())
-            print("u_labels:", u_labels)
             print("u_label_counts:", u_label_counts)
             print("len v_to_edges:", len(vs_to_edges))   
             print("len v_to_idx:", len(v_to_idx))
@@ -678,13 +676,13 @@ def train(args, dataset):
             embs_2d = TSNE().fit_transform(embs)
             xs, ys = zip(*embs_2d)
             xs, ys = list(xs), list(ys)
-            """ colors = ["red" if l == 1 else "blue" for l in u_labels]
+            colors = ["red" if l == 1 else "blue" for l in u_labels]
             colors += ["green"]*(len(v_embs)-1)
             plt.scatter(xs, ys, color=colors, alpha=0.3)
             xrs = [x for x, l in zip(xs, u_labels) if l == 1]
             yrs = [y for y, l in zip(ys, u_labels) if l == 1]
-            plt.scatter(xrs, yrs, color="red", alpha=0.9) """
-            colors = []
+            plt.scatter(xrs, yrs, color="red", alpha=0.9)
+            """ colors = []
             items = []
             for i, label in enumerate(u_labels):
                 if label == 1:
@@ -702,7 +700,7 @@ def train(args, dataset):
             plt.scatter(xs, ys, color=colors, alpha=0.3)
             xrs = [x for x, l in zip(xs, u_labels) if l == 1]
             yrs = [y for y, l in zip(ys, u_labels) if l == 1]
-            plt.scatter(xrs, yrs, color=[c for c, l in zip(colors, u_labels) if l == 1], alpha=0.9)
+            plt.scatter(xrs, yrs, color=[c for c, l in zip(colors, u_labels) if l == 1], alpha=0.9) """
 
             if task == "link":
                 fn = "link-embs.png"
