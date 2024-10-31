@@ -173,6 +173,11 @@ def load_dataset(args):
 
     print(feat_dim, "EDGE FEATURE DIM")
 
+    u_label_counts = Counter(u_labels.numpy())
+    print("u_label_counts:", u_label_counts)
+    print("len v_to_edges:", len(vs_to_edges))   
+    print("len v_to_idx:", len(v_to_idx))
+    print("v_to_idx:", v_to_idx)
     colors = []
     items = []
     for i, label in enumerate(u_labels):
