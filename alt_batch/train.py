@@ -670,6 +670,7 @@ def train(args, dataset):
         if args.analyze and (task == "link" or is_best):
             from sklearn.manifold import TSNE
             u_label_counts = Counter(u_labels.numpy())
+            print("u_labels:", u_labels)
             print("u_label_counts:", u_label_counts)
             print("len v_to_edges:", len(vs_to_edges))   
             print("len v_to_idx:", len(v_to_idx))
@@ -687,7 +688,6 @@ def train(args, dataset):
             for i, label in enumerate(u_labels):
                 if label == 1:
                     associated_item = us_to_edges[i][0][1]  # Assuming the first item in the edge list
-                    print("Associated item:", associated_item)
                     color = plt.cm.get_cmap('tab20')(associated_item % 20)  # Use a colormap to get different colors
                     colors.append(color)
                 else:
