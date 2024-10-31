@@ -172,18 +172,6 @@ def load_dataset(args):
         v_labels = None
 
     print(feat_dim, "EDGE FEATURE DIM")
-
-    u_label_counts = Counter(u_labels.numpy())
-    print("u_label_counts:", u_label_counts)
-    print("len v_to_edges:", len(vs_to_edges))   
-    print("len v_to_idx:", len(v_to_idx))
-    print("v_to_idx:", v_to_idx)
-    item_label_counts = defaultdict(int)
-    for i, label in enumerate(u_labels):
-        if label == 1:
-            associated_item = us_to_edges[i][0][1]
-            item_label_counts[associated_item] += 1
-    print("Item label counts (label=1):", item_label_counts)
     return (us_to_edges, vs_to_edges, u_labels, v_labels, train_us, u_train_mask,
         u_val_mask, u_test_mask, feat_dim, event_counts_u, event_counts_v,
         u_to_idx, v_to_idx, mat_flat, u_feats, v_feats)
