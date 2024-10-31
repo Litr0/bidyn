@@ -105,6 +105,7 @@ def load_dataset(args):
     bad_items = []
     n_colors = 0
     for u, i in u_to_idx.items():
+        print(dataset["labels_items"][u])
         u_labels[i] = dataset["labels"][u]
         if dataset["labels"][u] == 1:
             n_pos_labels += 1
