@@ -102,11 +102,19 @@ def load_dataset(args):
 
     u_labels = torch.zeros(len(us_to_edges), dtype=torch.long)
     n_pos_labels = 0
+    bad_items = []
+    n_colors = 0
     for u, i in u_to_idx.items():
         u_labels[i] = dataset["labels"][u]
         if dataset["labels"][u] == 1:
             n_pos_labels += 1
+            if dataset["labels_items"][u] in bad_items:
+                print("BAD ITEM:", dataset["labels_items"][u])
+                bad_items.append(dataset["labels_items"][u])
+                n_colors += 1
     print("NUMBER OF POSITIVE LABELS:", n_pos_labels)
+    print("NUMBER OF BAD ITEMS:", len(bad_items))
+    print("NUMBER OF COLORS:", n_colors)
     random.seed(2020)
     us = set(range(len(u_to_idx)))
     train_amt = args.train_amt

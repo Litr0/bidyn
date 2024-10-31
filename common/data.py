@@ -25,7 +25,7 @@ def load_dataset_csv(dataset_name, group="train", variant=None, get_edges=True,
     node_types = {}
     bad_users = set()
     bad_edges = set()
-    bad_items = set()
+    labels_items = set()
     removed_users = set()
     users = set()
     feats_len = None
@@ -49,9 +49,9 @@ def load_dataset_csv(dataset_name, group="train", variant=None, get_edges=True,
             if label == 1:
                 bad_users.add(user)
                 bad_edges.add(idx)
-                bad_items.add(toks[1])
             user, item = toks[:2]
             user, item = "A" + user, "B" + item
+            labels_items.add((label, toks[1]))
             node_types[user] = 0
             node_types[item] = 1
             feats = [float(x) for x in toks[4:]]
@@ -96,11 +96,9 @@ def load_dataset_csv(dataset_name, group="train", variant=None, get_edges=True,
         "buyer_to_idx": None,
         "edge_feats": edge_feats,
         "edges": edges,  # edges are in time order. edge_feats follows same order
+        "labels_items": labels_items,
         "name": dataset_name
     }
-    print("Bad users: {}".format(len(bad_users)))
-    print("Bad edges: {}".format(len(bad_edges)))
-    print("Bad items: {}".format(bad_items))
     return d
 
 def get_edge_lists(dataset):
