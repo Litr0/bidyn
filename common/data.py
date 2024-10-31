@@ -46,9 +46,9 @@ def load_dataset_csv(dataset_name, group="train", variant=None, get_edges=True,
             prev_time = time
             line_num += 1
             label = int(toks[3])
-            print((label, toks[1]))
             labels_items.append((label, toks[1]))
             if label == 1:
+                print((label, toks[1]))
                 bad_users.add(user)
                 bad_edges.add(idx)
             user, item = toks[:2]
