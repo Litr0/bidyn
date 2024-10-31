@@ -178,21 +178,12 @@ def load_dataset(args):
     print("len v_to_edges:", len(vs_to_edges))   
     print("len v_to_idx:", len(v_to_idx))
     print("v_to_idx:", v_to_idx)
-    colors = []
-    items = []
+    item_label_counts = defaultdict(int)
     for i, label in enumerate(u_labels):
         if label == 1:
-            associated_item = us_to_edges[i][0][1] 
-            items.append(associated_item)
-            color = plt.cm.get_cmap('tab20')(associated_item % 20)  
-            colors.append(color)
-        else:
-            colors.append("blue")
-    color_counts = Counter(colors)
-    print("Color counts:", color_counts)
-    print("Number of unique colors:", len(set(colors)))
-    print("Items:", items)
-    print("unique items:", len(set(items)))  
+            associated_item = us_to_edges[i][0][1]
+            item_label_counts[associated_item] += 1
+    print("Item label counts (label=1):", item_label_counts)
     return (us_to_edges, vs_to_edges, u_labels, v_labels, train_us, u_train_mask,
         u_val_mask, u_test_mask, feat_dim, event_counts_u, event_counts_v,
         u_to_idx, v_to_idx, mat_flat, u_feats, v_feats)
