@@ -110,7 +110,7 @@ def load_dataset(args):
             n_pos_labels += 1
     for label, item in dataset["labels_items"]:
         if label == 1:
-            if item not in bad_items:
+            if int(item) not in bad_items:
                 bad_items.append(int(item))
                 n_colors += 1
     print("NUMBER OF POSITIVE LABELS:", n_pos_labels)
