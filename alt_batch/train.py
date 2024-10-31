@@ -117,7 +117,7 @@ def load_dataset(args):
     print("NUMBER OF BAD ITEMS:", len(bad_items))
     print("NUMBER OF COLORS:", n_colors)
     print("BAD ITEMS:", bad_items)
-    print(v_to_idx)
+    print(v_to_idx[48860 + int(bad_items[0])])
     random.seed(2020)
     us = set(range(len(u_to_idx)))
     train_amt = args.train_amt
