@@ -25,7 +25,7 @@ def load_dataset_csv(dataset_name, group="train", variant=None, get_edges=True,
     node_types = {}
     bad_users = set()
     bad_edges = set()
-    labels_items = set()
+    labels_items = []
     removed_users = set()
     users = set()
     feats_len = None
@@ -51,7 +51,7 @@ def load_dataset_csv(dataset_name, group="train", variant=None, get_edges=True,
                 bad_edges.add(idx)
             user, item = toks[:2]
             user, item = "A" + user, "B" + item
-            labels_items.add((label, toks[1]))
+            labels_items.append((label, toks[1]))
             node_types[user] = 0
             node_types[item] = 1
             feats = [float(x) for x in toks[4:]]
