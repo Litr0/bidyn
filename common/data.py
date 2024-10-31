@@ -63,6 +63,10 @@ def load_dataset_csv(dataset_name, group="train", variant=None, get_edges=True,
             edges_by_user[user].append((float(time)))
             users.add(user)
             idx += 1
+    print("Number of users: ", len(users))
+    print("Number of edges: ", len(edges))
+    print("Number of bad users: ", len(bad_users))
+    print("Number of bad edges: ", len(bad_edges))
     edge_feats = [f for f, (u, v, t) in zip(edge_feats, edges) if u not in removed_users]
     edges = [(u, v, t) for u, v, t in edges if u not in removed_users]
     users -= set(removed_users)
