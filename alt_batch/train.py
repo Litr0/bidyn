@@ -685,14 +685,17 @@ def train(args, dataset):
             yrs = [y for y, l in zip(ys, u_labels) if l == 1]
             plt.scatter(xrs, yrs, color="red", alpha=0.9) """
             colors = []
+            items = []
             for i, label in enumerate(u_labels):
                 if label == 1:
                     associated_item = us_to_edges[i][0][1]  # Assuming the first item in the edge list
+                    items.append(associated_item)
                     color = plt.cm.get_cmap('tab20')(associated_item % 20)  # Use a colormap to get different colors
                     colors.append(color)
                 else:
                     colors.append("blue")
             colors += ["green"] * (len(v_embs) - 1)
+            print("Items:", items)
             color_counts = Counter(colors)
             print("Color counts:", color_counts)
             print("Number of unique colors:", len(set(colors)))
