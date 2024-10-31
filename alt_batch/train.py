@@ -183,12 +183,10 @@ def load_dataset(args):
             v_labels[v] = dataset["labels"][k]
     else:
         v_labels = None
-
-    print(us_to_edges)
     print(feat_dim, "EDGE FEATURE DIM")
     return (us_to_edges, vs_to_edges, u_labels, v_labels, train_us, u_train_mask,
         u_val_mask, u_test_mask, feat_dim, event_counts_u, event_counts_v,
-        u_to_idx, v_to_idx, mat_flat, u_feats, v_feats, bad_items_idx)
+        u_to_idx, v_to_idx, mat_flat, u_feats, v_feats, bad_items_idx, bad_items)
 
 max_time_cache = None
 def get_batch(args, model, batch, batch_idxs, lengths,
@@ -277,7 +275,7 @@ def time_encode(x):
 def train(args, dataset):
     (us_to_edges, vs_to_edges, u_labels, v_labels, train_us, u_train_mask,
         u_val_mask, u_test_mask, feat_dim, event_counts_u, event_counts_v,
-        u_to_idx, v_to_idx, mat_flat, u_feats, v_feats, bad_items_idx) = dataset
+        u_to_idx, v_to_idx, mat_flat, u_feats, v_feats, bad_items_idx, bad_items) = dataset
     dataset_name = args.dataset
     device = torch.device(args.device)
     emb_dim = args.emb_dim
@@ -679,17 +677,17 @@ def train(args, dataset):
             embs_2d = TSNE().fit_transform(embs)
             xs, ys = zip(*embs_2d)
             xs, ys = list(xs), list(ys)
-            colors = ["red" if l == 1 else "blue" for l in u_labels]
+            """ colors = ["red" if l == 1 else "blue" for l in u_labels]
             colors += ["green"]*(len(v_embs)-1)
             plt.scatter(xs, ys, color=colors, alpha=0.3)
             xrs = [x for x, l in zip(xs, u_labels) if l == 1]
             yrs = [y for y, l in zip(ys, u_labels) if l == 1]
-            plt.scatter(xrs, yrs, color="red", alpha=0.9)
-
-            """ colors = []
+            plt.scatter(xrs, yrs, color="red", alpha=0.9) """
+            colors = []
             for i, label in enumerate(u_labels):
                 if label == 1:
                     associated_item = us_to_edges[i][0][1]  # Assuming the first item in the edge list
+                    print("Associated item:", associated_item)
                     color = plt.cm.get_cmap('tab20')(associated_item % 20)  # Use a colormap to get different colors
                     colors.append(color)
                 else:
@@ -701,7 +699,7 @@ def train(args, dataset):
             plt.scatter(xs, ys, color=colors, alpha=0.3)
             xrs = [x for x, l in zip(xs, u_labels) if l == 1]
             yrs = [y for y, l in zip(ys, u_labels) if l == 1]
-            plt.scatter(xrs, yrs, color=[c for c, l in zip(colors, u_labels) if l == 1], alpha=0.9) """
+            plt.scatter(xrs, yrs, color=[c for c, l in zip(colors, u_labels) if l == 1], alpha=0.9)
 
             if task == "link":
                 fn = "link-embs.png"
