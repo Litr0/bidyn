@@ -172,6 +172,22 @@ def load_dataset(args):
         v_labels = None
 
     print(feat_dim, "EDGE FEATURE DIM")
+
+    colors = []
+    items = []
+    for i, label in enumerate(u_labels):
+        if label == 1:
+            associated_item = us_to_edges[i][0][1] 
+            items.append(associated_item)
+            color = plt.cm.get_cmap('tab20')(associated_item % 20)  
+            colors.append(color)
+        else:
+            colors.append("blue")
+    color_counts = Counter(colors)
+    print("Color counts:", color_counts)
+    print("Number of unique colors:", len(set(colors)))
+    print("Items:", items)
+    print("unique items:", len(set(items)))  
     return (us_to_edges, vs_to_edges, u_labels, v_labels, train_us, u_train_mask,
         u_val_mask, u_test_mask, feat_dim, event_counts_u, event_counts_v,
         u_to_idx, v_to_idx, mat_flat, u_feats, v_feats)
@@ -671,22 +687,6 @@ def train(args, dataset):
             xrs = [x for x, l in zip(xs, u_labels) if l == 1]
             yrs = [y for y, l in zip(ys, u_labels) if l == 1]
             plt.scatter(xrs, yrs, color="red", alpha=0.9)
-            """ colors = []
-            items = []
-            for i, label in enumerate(u_labels):
-                if label == 1:
-                    associated_item = us_to_edges[i][0][1] 
-                    items.append(associated_item)
-                    color = plt.cm.get_cmap('tab20')(associated_item % 20)  
-                    colors.append(color)
-                else:
-                    colors.append("blue")
-            colors += ["green"] * (len(v_embs) - 1)
-            color_counts = Counter(colors)
-            print("Color counts:", color_counts)
-            print("Number of unique colors:", len(set(colors)))
-            print("Items:", items)
-            print("unique items:", len(set(items)))   """
             plt.scatter(xs, ys, color=colors, alpha=0.3)
             xrs = [x for x, l in zip(xs, u_labels) if l == 1]
             yrs = [y for y, l in zip(ys, u_labels) if l == 1]
