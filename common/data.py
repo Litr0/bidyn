@@ -50,7 +50,7 @@ def load_dataset_csv(dataset_name, group="train", variant=None, get_edges=True,
             if label == 1:
                 print("bad user", toks[0])
                 print("bad item", toks[1])
-                print("labels_items", len(labels_items))
+                print("labels_items", len(labels_items[idx]))
                 bad_users.add(user)
                 bad_edges.add(idx)
             user, item = toks[:2]
