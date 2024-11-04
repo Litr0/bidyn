@@ -669,6 +669,7 @@ def train(args, dataset):
         # analyze embs
         if args.analyze and (task == "link" or is_best):
             from sklearn.manifold import TSNE
+            import time
             u_label_counts = Counter(u_labels.numpy())
             print("u_label_counts:", u_label_counts)
             print("len v_to_edges:", len(vs_to_edges))   
@@ -677,6 +678,10 @@ def train(args, dataset):
             embs_2d = TSNE().fit_transform(embs)
             xs, ys = zip(*embs_2d)
             xs, ys = list(xs), list(ys)
+            print("xs:", xs)
+            time.sleep(10)
+            print("ys:", ys)
+            time.sleep(10)
             """ colors = ["red" if l == 1 else "blue" for l in u_labels]
             colors += ["green"]*(len(v_embs)-1)
             plt.scatter(xs, ys, color=colors, alpha=0.3)
