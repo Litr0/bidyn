@@ -685,8 +685,8 @@ def train(args, dataset):
             plt.scatter(xrs, yrs, color="red", alpha=0.9) """
             colors = []
             items = []
-            for i, label in enumerate(labels_items):
-                if label[0] == 1:
+            for i, label in enumerate(u_labels):
+                if label == 1:
                     associated_item = us_to_edges[i][0][1]  # Assuming the first item in the edge list
                     items.append(associated_item)
                     color = plt.cm.get_cmap('tab20')(associated_item % 20)  # Use a colormap to get different colors
