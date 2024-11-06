@@ -31,7 +31,7 @@ from baselines.tgat.utils import EarlyStopMonitor, RandEdgeSampler
 def train(args, dataset):
     (us_to_edges, vs_to_edges, u_labels, v_labels, train_us, u_train_mask,
         u_val_mask, u_test_mask, feat_dim, event_counts_u, event_counts_v,
-        u_to_idx, v_to_idx, mat_flat, u_feats, v_feats) = dataset
+        u_to_idx, v_to_idx, mat_flat, u_feats, v_feats, bad_items_idx, bad_items, labels_items) = dataset
     # for tgat numbering, u's come first, then v's
     v_start_idx = len(us_to_edges)
     dataset_name = args.dataset
