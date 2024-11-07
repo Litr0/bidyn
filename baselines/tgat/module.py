@@ -324,12 +324,9 @@ class AttnModel(torch.nn.Module):
 
         #self.act = torch.nn.ReLU()
         
+        # Values for steam dataset
         n_head = 5
         self.n_head = 5
-
-        print('Model dim:', self.model_dim)
-        print('n_head:', n_head)
-        print(self.model_dim % n_head == 0)
 
         assert(self.model_dim % n_head == 0)
         self.logger = logging.getLogger(__name__)
