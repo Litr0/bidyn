@@ -324,6 +324,9 @@ class AttnModel(torch.nn.Module):
 
         #self.act = torch.nn.ReLU()
         
+        print('Model dim:', self.model_dim)
+        print('n_head:', n_head)
+
         assert(self.model_dim % n_head == 0)
         self.logger = logging.getLogger(__name__)
         self.attn_mode = attn_mode
