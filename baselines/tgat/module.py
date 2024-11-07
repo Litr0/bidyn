@@ -324,6 +324,8 @@ class AttnModel(torch.nn.Module):
 
         #self.act = torch.nn.ReLU()
         
+        self.n_head = 5
+
         print('Model dim:', self.model_dim)
         print('n_head:', n_head)
         print(self.model_dim % n_head == 0)
