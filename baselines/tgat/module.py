@@ -301,7 +301,7 @@ class AttnModel(torch.nn.Module):
     """Attention based temporal layers
     """
     def __init__(self, feat_dim, edge_dim, time_dim, 
-                 attn_mode='prod', n_head=2, drop_out=0.1):
+                 attn_mode='prod', n_head=5, drop_out=0.1):
         """
         args:
           feat_dim: dim for the node features
@@ -326,6 +326,7 @@ class AttnModel(torch.nn.Module):
         
         print('Model dim:', self.model_dim)
         print('n_head:', n_head)
+        print(self.model_dim % n_head == 0)
 
         assert(self.model_dim % n_head == 0)
         self.logger = logging.getLogger(__name__)
