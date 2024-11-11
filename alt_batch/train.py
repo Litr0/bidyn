@@ -13,7 +13,7 @@ from sklearn.metrics import roc_auc_score
 from scipy.stats import ttest_ind
 from scipy.sparse import csr_matrix
 import torch
-import torch_scatter
+import torch_scatter # type: ignore
 import torch.nn as nn
 import torch.optim as optim
 import torch.nn.functional as F
