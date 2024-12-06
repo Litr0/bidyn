@@ -329,6 +329,7 @@ def train(args, dataset):
     best_val_loss, best_test_auroc = float("inf"), 0
     task_schedule = util.make_task_schedule(args.objective, args.n_epochs)
     train_aurocs, val_aurocs, test_aurocs = [], [], []
+    val_losses, train_losses = [], []
     for epoch, tasks in enumerate(task_schedule):
         task = tasks[0]   # only use training task from schedule (always eval on abuse)
         train_loss_total, train_loss_total_vec, train_logp, train_labels = 0, [], [], []
@@ -650,6 +651,8 @@ def train(args, dataset):
             normalized_train_loss = train_loss_total_vec_sum / n_batches
             val_loss_total_vec_sum = sum(val_loss_total_vec)
             normalized_val_loss = val_loss_total_vec_sum / n_batches
+            val_losses.append(normalized_val_loss)
+            train_losses.append(normalized_train_loss)
             print("Normalized train loss: {:.4f}".format(normalized_train_loss))
             print("Normalized val loss: {:.4f}".format(normalized_val_loss))
             print("Train AUROC: {:.4f}. Val AUROC: {:.4f}. "
@@ -668,6 +671,7 @@ def train(args, dataset):
                 train_loss_total, train_auroc))
             train_loss_total_vec_sum = sum(train_loss_total_vec)
             normalized_train_loss = train_loss_total_vec_sum / n_batches
+            train_losses.append(normalized_train_loss)
             print("Normalized train loss: {:.4f}".format(normalized_train_loss))
 
         # analyze embs
@@ -721,12 +725,18 @@ def train(args, dataset):
     test_aurocs_std = np.std(test_aurocs, ddof=1)
     train_aurocs_mean = np.mean(train_aurocs)
     train_aurocs_std = np.std(train_aurocs, ddof=1)
+    val_losses_mean = np.mean(val_losses)
+    val_losses_std = np.std(val_losses, ddof=1)
+    train_losses_mean = np.mean(train_losses)
+    train_losses_std = np.std(train_losses, ddof=1)
     print("Validation AUROC mean:", val_auroc_mean)
     print("Validation AUROC std:", val_auroc_std)
     print("Test AUROC mean:", test_aurocs_mean)
     print("Test AUROC std:", test_aurocs_std)
     print("Train AUROC mean:", train_aurocs_mean)
     print("Train AUROC std:", train_aurocs_std)
+    print("Validation loss mean:", val_losses_mean)
+    print("Validation loss std:", val_losses_std)
     print("Test AUROC with best validation model: {:.4f}".format(best_test_auroc))
     return best_test_auroc
 
