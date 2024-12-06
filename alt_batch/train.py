@@ -753,4 +753,4 @@ if __name__ == "__main__":
         aurocs.append(auroc)
     print(args)
     print(aurocs)
-    print(np.mean(aurocs), np.std(aurocs, ddof=1))
+    print("Mean AUROC over trials: {:.4f}, Std Dev: {:.4f}".format(np.mean(aurocs), np.std(aurocs, ddof=1)))
