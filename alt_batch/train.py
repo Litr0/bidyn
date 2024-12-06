@@ -328,6 +328,7 @@ def train(args, dataset):
 
     best_val_loss, best_test_auroc = float("inf"), 0
     task_schedule = util.make_task_schedule(args.objective, args.n_epochs)
+    train_aurocs, val_aurocs, test_aurocs = [], [], []
     for epoch, tasks in enumerate(task_schedule):
         task = tasks[0]   # only use training task from schedule (always eval on abuse)
         train_loss_total, train_loss_total_vec, train_logp, train_labels = 0, [], [], []
@@ -626,15 +627,18 @@ def train(args, dataset):
         train_labels = torch.cat(train_labels, dim=0).numpy()
         try:
             train_auroc = roc_auc_score(train_labels, train_logp[:,1])
+            train_aurocs.append(train_auroc)
         except:
             train_auroc = 0
         if val_logp:
             val_logp = torch.cat(val_logp, dim=0).numpy()
             val_labels = torch.cat(val_labels, dim=0).numpy()
             val_auroc = roc_auc_score(val_labels, val_logp[:,1])
+            val_aurocs.append(val_auroc)
             test_logp = torch.cat(test_logp, dim=0).numpy()
             test_labels = torch.cat(test_labels, dim=0).numpy()
             test_auroc = roc_auc_score(test_labels, test_logp[:,1])
+            test_aurocs.append(test_auroc)
             if val_loss_total < best_val_loss:
                 best_val_loss = val_loss_total
                 best_test_auroc = test_auroc
@@ -711,7 +715,18 @@ def train(args, dataset):
             plt.savefig(fn, bbox_inches="tight")
             plt.close()
             print("saved", fn)
-
+    val_auroc_mean = np.mean(val_aurocs)   
+    val_auroc_std = np.std(val_aurocs, ddof=1)
+    test_aurocs_mean = np.mean(test_aurocs)
+    test_aurocs_std = np.std(test_aurocs, ddof=1)
+    train_aurocs_mean = np.mean(train_aurocs)
+    train_aurocs_std = np.std(train_aurocs, ddof=1)
+    print("Validation AUROC mean:", val_auroc_mean)
+    print("Validation AUROC std:", val_auroc_std)
+    print("Test AUROC mean:", test_aurocs_mean)
+    print("Test AUROC std:", test_aurocs_std)
+    print("Train AUROC mean:", train_aurocs_mean)
+    print("Train AUROC std:", train_aurocs_std)
     print("Test AUROC with best validation model: {:.4f}".format(best_test_auroc))
     return best_test_auroc
 
