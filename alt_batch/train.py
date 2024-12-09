@@ -116,7 +116,7 @@ def load_dataset(args):
                 n_colors += 1
     print("NUMBER OF POSITIVE LABELS:", n_pos_labels)
     print("NUMBER OF BAD ITEMS:", len(bad_items))
-    print("BAD ITEMS:", bad_items)
+    # print("BAD ITEMS:", bad_items)
     bad_items_idx = []
     for bad_item in bad_items:
         bad_items_idx.append(bad_item + 48860)
