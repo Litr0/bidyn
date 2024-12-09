@@ -737,6 +737,8 @@ def train(args, dataset):
     print("Train AUROC std:", train_aurocs_std)
     print("Validation loss mean:", val_losses_mean)
     print("Validation loss std:", val_losses_std)
+    print("Train loss mean:", train_losses_mean)
+    print("Train loss std:", train_losses_std)
     print("Test AUROC with best validation model: {:.4f}".format(best_test_auroc))
     return best_test_auroc
 
