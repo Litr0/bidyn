@@ -101,6 +101,7 @@ def load_dataset(args):
     u_to_idx, v_to_idx, us_to_edges, vs_to_edges = data.get_edge_lists(dataset)
 
     labels_items = dataset["labels_items"]
+    edge_feats = dataset["edge_feats"]
     u_labels = torch.zeros(len(us_to_edges), dtype=torch.long)
     n_pos_labels = 0
     bad_items = []
@@ -186,7 +187,7 @@ def load_dataset(args):
     print(feat_dim, "EDGE FEATURE DIM")
     return (us_to_edges, vs_to_edges, u_labels, v_labels, train_us, u_train_mask,
         u_val_mask, u_test_mask, feat_dim, event_counts_u, event_counts_v,
-        u_to_idx, v_to_idx, mat_flat, u_feats, v_feats, bad_items_idx, bad_items, labels_items)
+        u_to_idx, v_to_idx, mat_flat, u_feats, v_feats, bad_items_idx, bad_items, labels_items, edge_feats)
 
 max_time_cache = None
 def get_batch(args, model, batch, batch_idxs, lengths,
@@ -275,7 +276,7 @@ def time_encode(x):
 def train(args, dataset):
     (us_to_edges, vs_to_edges, u_labels, v_labels, train_us, u_train_mask,
         u_val_mask, u_test_mask, feat_dim, event_counts_u, event_counts_v,
-        u_to_idx, v_to_idx, mat_flat, u_feats, v_feats, bad_items_idx, bad_items, labels_items) = dataset
+        u_to_idx, v_to_idx, mat_flat, u_feats, v_feats, bad_items_idx, bad_items, labels_items, edge_features) = dataset
     dataset_name = args.dataset
     device = torch.device(args.device)
     emb_dim = args.emb_dim
@@ -675,7 +676,6 @@ def train(args, dataset):
         
         if is_best:
             # save predictions
-            edge_features = dataset["edge_feats"]
             with open(args.out_preds_path, "wb") as f:
                 pickle.dump({
                     'train_logp': train_logp,
