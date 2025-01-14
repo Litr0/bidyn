@@ -696,8 +696,6 @@ def train(args, dataset):
                 val_labels = preds['val_labels']
                 test_logp = preds['test_logp']
                 test_labels = preds['test_labels']
-                u_feats = preds['u_feats']
-                v_feats = preds['v_feats']
                 edge_features = preds['edge_features']
                 # print the predictions
                 print("Train logp:", train_logp)
