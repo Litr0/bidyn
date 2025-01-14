@@ -675,7 +675,7 @@ def train(args, dataset):
         
         if is_best:
             # save predictions
-            edge_features = dataset["edge_features"]
+            edge_features = dataset["edge_feats"]
             with open(args.out_preds_path, "wb") as f:
                 pickle.dump({
                     'train_logp': train_logp,
