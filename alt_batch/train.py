@@ -712,7 +712,6 @@ def train(args, dataset):
                 print("len test logp:", len(test_logp))
                 print("Test labels:", test_labels)
                 print("len test labels:", len(test_labels))
-                print("Edge features:", edge_features)
                 print("len edge features:", len(edge_features))
 
             print("Saved predictions to", args.out_preds_path)
