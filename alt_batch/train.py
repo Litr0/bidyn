@@ -621,7 +621,6 @@ def train(args, dataset):
         # save embs
         with open(args.out_embs_path, "wb") as f:
             torch.save((u_embs, v_embs), f)
-
         # get scores
         is_best = False
         train_logp = torch.cat(train_logp, dim=0).numpy()
@@ -673,7 +672,43 @@ def train(args, dataset):
             normalized_train_loss = train_loss_total_vec_sum / n_batches
             train_losses.append(normalized_train_loss)
             print("Normalized train loss: {:.4f}".format(normalized_train_loss))
+        
+        if is_best:
+            # save predictions
+            with open(args.out_preds_path, "wb") as f:
+                pickle.dump({
+                    'train_logp': train_logp,
+                    'train_labels': train_labels,
+                    'val_logp': val_logp,
+                    'val_labels': val_labels,
+                    'test_logp': test_logp,
+                    'test_labels': test_labels,
+                    'u_feats': u_feats,
+                    'v_feats': v_feats
+                }, f)
+            
+            # open the file again to read the predictions
+            with open(args.out_preds_path, "rb") as f:
+                preds = pickle.load(f)
+                train_logp = preds['train_logp']
+                train_labels = preds['train_labels']
+                val_logp = preds['val_logp']
+                val_labels = preds['val_labels']
+                test_logp = preds['test_logp']
+                test_labels = preds['test_labels']
+                u_feats = preds['u_feats']
+                v_feats = preds['v_feats']
+                # print the predictions
+                print("Train logp:", train_logp)
+                print("Train labels:", train_labels)
+                print("Val logp:", val_logp)
+                print("Val labels:", val_labels)
+                print("Test logp:", test_logp)
+                print("Test labels:", test_labels)
+                print("u_feats:", u_feats)
+                print("v_feats:", v_feats)
 
+            print("Saved predictions to", args.out_preds_path)
         # analyze embs
         if args.analyze and (task == "link" or is_best):
             from sklearn.manifold import TSNE
