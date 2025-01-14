@@ -277,6 +277,13 @@ def train(args, dataset):
     (us_to_edges, vs_to_edges, u_labels, v_labels, train_us, u_train_mask,
         u_val_mask, u_test_mask, feat_dim, event_counts_u, event_counts_v,
         u_to_idx, v_to_idx, mat_flat, u_feats, v_feats, bad_items_idx, bad_items, labels_items, edge_features) = dataset
+    
+    print(u_train_mask)
+    print(len(u_train_mask))
+    print(u_val_mask)
+    print(len(u_val_mask))
+    print(u_test_mask)
+    print(len(u_test_mask))
     dataset_name = args.dataset
     device = torch.device(args.device)
     emb_dim = args.emb_dim
