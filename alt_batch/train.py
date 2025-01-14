@@ -675,6 +675,7 @@ def train(args, dataset):
         
         if is_best:
             # save predictions
+            edge_features = dataset["edge_features"]
             with open(args.out_preds_path, "wb") as f:
                 pickle.dump({
                     'train_logp': train_logp,
@@ -683,8 +684,7 @@ def train(args, dataset):
                     'val_labels': val_labels,
                     'test_logp': test_logp,
                     'test_labels': test_labels,
-                    'u_feats': u_feats,
-                    'v_feats': v_feats
+                    'edge_features': edge_features,
                 }, f)
             
             # open the file again to read the predictions
@@ -698,15 +698,22 @@ def train(args, dataset):
                 test_labels = preds['test_labels']
                 u_feats = preds['u_feats']
                 v_feats = preds['v_feats']
+                edge_features = preds['edge_features']
                 # print the predictions
                 print("Train logp:", train_logp)
+                print("len train logp:", len(train_logp))
                 print("Train labels:", train_labels)
+                print("len train labels:", len(train_labels))
                 print("Val logp:", val_logp)
+                print("len val logp:", len(val_logp))
                 print("Val labels:", val_labels)
+                print("len val labels:", len(val_labels))
                 print("Test logp:", test_logp)
+                print("len test logp:", len(test_logp))
                 print("Test labels:", test_labels)
-                print("u_feats:", u_feats)
-                print("v_feats:", v_feats)
+                print("len test labels:", len(test_labels))
+                print("Edge features:", edge_features)
+                print("len edge features:", len(edge_features))
 
             print("Saved predictions to", args.out_preds_path)
         # analyze embs
