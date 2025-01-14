@@ -278,6 +278,7 @@ def train(args, dataset):
         u_val_mask, u_test_mask, feat_dim, event_counts_u, event_counts_v,
         u_to_idx, v_to_idx, mat_flat, u_feats, v_feats, bad_items_idx, bad_items, labels_items, edge_features) = dataset
     
+    # ANALYZE 15/01/2025
     print(u_train_mask)
     print(len(u_train_mask))
     print(u_val_mask)
