@@ -125,22 +125,19 @@ def load_dataset(args):
     us = set(range(len(u_to_idx)))
     train_amt = args.train_amt
     train_us = set(random.sample(range(len(us)), int(len(us)*train_amt)))
-    print("LEN TRAIN US:", len(train_us))
     val_us = set(random.sample([x for x in range(len(us)) if x not in
         train_us], int(len(us)*(1-train_amt)/2)))
-    print("LEN VAL US:", len(val_us))
     test_us = (us - train_us) - val_us
-    print("LEN TEST US:", len(test_us))
     u_train_mask = torch.tensor([u in train_us for u in range(len(us))])
     u_val_mask = torch.tensor([u in val_us for u in range(len(us))])
     u_test_mask = torch.tensor([u in test_us for u in range(len(us))])
     feat_dim = len(us_to_edges[0][0][2])
-    print("u_train_mask", u_train_mask)
-    print("u_val_mask", u_val_mask)
-    print("u_test_mask", u_test_mask)
-    print("len(u_train_mask)", len(u_train_mask))
-    print("len(u_val_mask)", len(u_val_mask))
-    print("len(u_test_mask)", len(u_test_mask))
+
+    # Get edge features for these masks
+    train_edge_feats = [edge_feats[i] for i in range(len(edge_feats)) if u_train_mask[i]]
+    val_edge_feats = [edge_feats[i] for i in range(len(edge_feats)) if u_val_mask[i]]
+    test_edge_feats = [edge_feats[i] for i in range(len(edge_feats)) if u_test_mask[i]]
+    print( val_edge_feats == test_edge_feats)
 
     if args.use_discrete_time_batching:
         mats = dataset["mats"]
