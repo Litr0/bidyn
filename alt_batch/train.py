@@ -125,9 +125,15 @@ def load_dataset(args):
     us = set(range(len(u_to_idx)))
     train_amt = args.train_amt
     train_us = set(random.sample(range(len(us)), int(len(us)*train_amt)))
+    print("TRAIN US:", train_us)
+    print("LEN TRAIN US:", len(train_us))
     val_us = set(random.sample([x for x in range(len(us)) if x not in
         train_us], int(len(us)*(1-train_amt)/2)))
+    print("VAL US:", val_us)
+    print("LEN VAL US:", len(val_us))
     test_us = (us - train_us) - val_us
+    print("TEST US:", test_us)
+    print("LEN TEST US:", len(test_us))
     u_train_mask = torch.tensor([u in train_us for u in range(len(us))])
     u_val_mask = torch.tensor([u in val_us for u in range(len(us))])
     u_test_mask = torch.tensor([u in test_us for u in range(len(us))])
