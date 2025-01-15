@@ -133,9 +133,12 @@ def load_dataset(args):
     u_test_mask = torch.tensor([u in test_us for u in range(len(us))])
     feat_dim = len(us_to_edges[0][0][2])
 
+    array = []
     print( len(edge_feats) )
     for val in train_us:
+        array.append( edge_feats[val] )
         print( edge_feats[val] )
+    print( len(array) )
 
     if args.use_discrete_time_batching:
         mats = dataset["mats"]
