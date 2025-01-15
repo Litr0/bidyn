@@ -137,8 +137,8 @@ def load_dataset(args):
     print( len(edge_feats) )
     for val in train_us:
         array.append( edge_feats[val] )
-        print( edge_feats[val] )
     print( len(array) )
+    print( len(train_us) )
 
     if args.use_discrete_time_batching:
         mats = dataset["mats"]
