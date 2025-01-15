@@ -133,12 +133,9 @@ def load_dataset(args):
     u_test_mask = torch.tensor([u in test_us for u in range(len(us))])
     feat_dim = len(us_to_edges[0][0][2])
 
-    array = []
-    print( len(edge_feats) )
-    for val in train_us:
-        array.append( edge_feats[val] )
-    print( len(array) )
-    print( len(train_us) )
+    train_feats = [edge_feats[val] for val in train_us]
+    val_feats = [edge_feats[val] for val in val_us]
+    test_feats = [edge_feats[val] for val in test_us]
 
     if args.use_discrete_time_batching:
         mats = dataset["mats"]
@@ -194,7 +191,8 @@ def load_dataset(args):
     print(feat_dim, "EDGE FEATURE DIM")
     return (us_to_edges, vs_to_edges, u_labels, v_labels, train_us, u_train_mask,
         u_val_mask, u_test_mask, feat_dim, event_counts_u, event_counts_v,
-        u_to_idx, v_to_idx, mat_flat, u_feats, v_feats, bad_items_idx, bad_items, labels_items, edge_feats)
+        u_to_idx, v_to_idx, mat_flat, u_feats, v_feats, bad_items_idx, bad_items, labels_items, edge_feats, 
+        train_feats, val_feats, test_feats)
 
 max_time_cache = None
 def get_batch(args, model, batch, batch_idxs, lengths,
@@ -283,7 +281,8 @@ def time_encode(x):
 def train(args, dataset):
     (us_to_edges, vs_to_edges, u_labels, v_labels, train_us, u_train_mask,
         u_val_mask, u_test_mask, feat_dim, event_counts_u, event_counts_v,
-        u_to_idx, v_to_idx, mat_flat, u_feats, v_feats, bad_items_idx, bad_items, labels_items, edge_features) = dataset
+        u_to_idx, v_to_idx, mat_flat, u_feats, v_feats, bad_items_idx, bad_items, labels_items, edge_features, 
+        train_feats, val_feats, test_feats) = dataset
     
     dataset_name = args.dataset
     device = torch.device(args.device)
@@ -697,10 +696,9 @@ def train(args, dataset):
                     'test_logp': test_logp,
                     'test_labels': test_labels,
                     'edge_features': edge_features,
-                    'train_mask': train_mask,
-                    'val_mask': val_mask,
-                    'test_mask': test_mask,
-                    'logp': logp
+                    'train_feats': train_feats,
+                    'val_feats': val_feats,
+                    'test_feats': test_feats,
                 }, f)
             
             # open the file again to read the predictions
@@ -713,10 +711,9 @@ def train(args, dataset):
                 test_logp = preds['test_logp']
                 test_labels = preds['test_labels']
                 edge_features = preds['edge_features']
-                train_mask = preds['train_mask']
-                val_mask = preds['val_mask']
-                test_mask = preds['test_mask']
-                logp = preds['logp']
+                train_feats = preds['train_feats']
+                val_feats = preds['val_feats']
+                test_feats = preds['test_feats']
                 # print the predictions
                 print("Train logp:", train_logp)
                 print("len train logp:", len(train_logp))
@@ -731,11 +728,10 @@ def train(args, dataset):
                 print("Test labels:", test_labels)
                 print("len test labels:", len(test_labels))
                 print("len edge features:", len(edge_features))
-                print("len train_mask:", len(train_mask))
-                print("len val_mask:", len(val_mask))
-                print("len test_mask:", len(test_mask))
-                print("len logp:", len(logp))
-
+                print("len train feats:", len(train_feats))
+                print("len val feats:", len(val_feats))
+                print("len test feats:", len(test_feats))
+        
             print("Saved predictions to", args.out_preds_path)
         # analyze embs
         if args.analyze and (task == "link" or is_best):
