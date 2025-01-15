@@ -134,9 +134,9 @@ def load_dataset(args):
     feat_dim = len(us_to_edges[0][0][2])
 
     # Get edge features for these masks
-    train_edge_feats = [edge_feats[i] for i in range(len(edge_feats)) if u_train_mask[i]]
-    val_edge_feats = [edge_feats[i] for i in range(len(edge_feats)) if u_val_mask[i]]
-    test_edge_feats = [edge_feats[i] for i in range(len(edge_feats)) if u_test_mask[i]]
+    train_edge_feats = [edge_feats[i] for i in range(len(u_train_mask)) if u_train_mask[i]]
+    val_edge_feats = [edge_feats[i] for i in range(len(u_val_mask)) if u_val_mask[i]]
+    test_edge_feats = [edge_feats[i] for i in range(len(u_test_mask)) if u_test_mask[i]]
     print( val_edge_feats == test_edge_feats)
 
     if args.use_discrete_time_batching:
