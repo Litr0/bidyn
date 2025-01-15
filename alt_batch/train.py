@@ -724,7 +724,7 @@ def train(args, dataset):
                 print("val_mask:", val_mask)
                 print("len val_mask:", len(val_mask))
                 print("test_mask:", test_mask)
-                print("len test_mask:", len(u_test_mask))
+                print("len test_mask:", len(test_mask))
 
             print("Saved predictions to", args.out_preds_path)
         # analyze embs
