@@ -137,7 +137,7 @@ def load_dataset(args):
     train_edge_feats = [edge_feats[i] for i in range(len(u_train_mask)) if u_train_mask[i]]
     val_edge_feats = [edge_feats[i] for i in range(len(u_val_mask)) if u_val_mask[i]]
     test_edge_feats = [edge_feats[i] for i in range(len(u_test_mask)) if u_test_mask[i]]
-    print( val_edge_feats == test_edge_feats)
+    print( val_edge_feats)
 
     if args.use_discrete_time_batching:
         mats = dataset["mats"]
