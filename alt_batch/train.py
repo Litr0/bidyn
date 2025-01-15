@@ -285,6 +285,12 @@ def train(args, dataset):
     batch_size_v = args.batch_size_v
     use_inductive = False
     method = args.method
+    print("u_train_mask", u_train_mask)
+    print("u_val_mask", u_val_mask)
+    print("u_test_mask", u_test_mask)
+    print("len(u_train_mask)", len(u_train_mask))
+    print("len(u_val_mask)", len(u_val_mask))
+    print("len(u_test_mask)", len(u_test_mask))
     print(dataset_name)
     print(method)
 
@@ -724,13 +730,9 @@ def train(args, dataset):
                 print("Test labels:", test_labels)
                 print("len test labels:", len(test_labels))
                 print("len edge features:", len(edge_features))
-                print("train_mask:", train_mask)
                 print("len train_mask:", len(train_mask))
-                print("val_mask:", val_mask)
                 print("len val_mask:", len(val_mask))
-                print("test_mask:", test_mask)
                 print("len test_mask:", len(test_mask))
-                print("logp:", logp)
                 print("len logp:", len(logp))
 
             print("Saved predictions to", args.out_preds_path)
