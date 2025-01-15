@@ -692,7 +692,8 @@ def train(args, dataset):
                     'edge_features': edge_features,
                     'train_mask': train_mask,
                     'val_mask': val_mask,
-                    'test_mask': test_mask
+                    'test_mask': test_mask,
+                    'logp': logp
                 }, f)
             
             # open the file again to read the predictions
@@ -705,6 +706,10 @@ def train(args, dataset):
                 test_logp = preds['test_logp']
                 test_labels = preds['test_labels']
                 edge_features = preds['edge_features']
+                train_mask = preds['train_mask']
+                val_mask = preds['val_mask']
+                test_mask = preds['test_mask']
+                logp = preds['logp']
                 # print the predictions
                 print("Train logp:", train_logp)
                 print("len train logp:", len(train_logp))
@@ -725,6 +730,8 @@ def train(args, dataset):
                 print("len val_mask:", len(val_mask))
                 print("test_mask:", test_mask)
                 print("len test_mask:", len(test_mask))
+                print("logp:", logp)
+                print("len logp:", len(logp))
 
             print("Saved predictions to", args.out_preds_path)
         # analyze embs
