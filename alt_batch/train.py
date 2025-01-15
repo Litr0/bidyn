@@ -700,38 +700,6 @@ def train(args, dataset):
                     'val_feats': val_feats,
                     'test_feats': test_feats,
                 }, f)
-            
-            # open the file again to read the predictions
-            with open(args.out_preds_path, "rb") as f:
-                preds = pickle.load(f)
-                train_logp = preds['train_logp']
-                train_labels = preds['train_labels']
-                val_logp = preds['val_logp']
-                val_labels = preds['val_labels']
-                test_logp = preds['test_logp']
-                test_labels = preds['test_labels']
-                edge_features = preds['edge_features']
-                train_feats = preds['train_feats']
-                val_feats = preds['val_feats']
-                test_feats = preds['test_feats']
-                # print the predictions
-                print("Train logp:", train_logp)
-                print("len train logp:", len(train_logp))
-                print("Train labels:", train_labels)
-                print("len train labels:", len(train_labels))
-                print("Val logp:", val_logp)
-                print("len val logp:", len(val_logp))
-                print("Val labels:", val_labels)
-                print("len val labels:", len(val_labels))
-                print("Test logp:", test_logp)
-                print("len test logp:", len(test_logp))
-                print("Test labels:", test_labels)
-                print("len test labels:", len(test_labels))
-                print("len edge features:", len(edge_features))
-                print("len train feats:", len(train_feats))
-                print("len val feats:", len(val_feats))
-                print("len test feats:", len(test_feats))
-        
             print("Saved predictions to", args.out_preds_path)
         # analyze embs
         if args.analyze and (task == "link" or is_best):
