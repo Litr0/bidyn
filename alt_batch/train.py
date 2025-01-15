@@ -132,6 +132,12 @@ def load_dataset(args):
     u_val_mask = torch.tensor([u in val_us for u in range(len(us))])
     u_test_mask = torch.tensor([u in test_us for u in range(len(us))])
     feat_dim = len(us_to_edges[0][0][2])
+    print("u_train_mask", u_train_mask)
+    print("u_val_mask", u_val_mask)
+    print("u_test_mask", u_test_mask)
+    print("len(u_train_mask)", len(u_train_mask))
+    print("len(u_val_mask)", len(u_val_mask))
+    print("len(u_test_mask)", len(u_test_mask))
 
     if args.use_discrete_time_batching:
         mats = dataset["mats"]
@@ -285,12 +291,6 @@ def train(args, dataset):
     batch_size_v = args.batch_size_v
     use_inductive = False
     method = args.method
-    print("u_train_mask", u_train_mask)
-    print("u_val_mask", u_val_mask)
-    print("u_test_mask", u_test_mask)
-    print("len(u_train_mask)", len(u_train_mask))
-    print("len(u_val_mask)", len(u_val_mask))
-    print("len(u_test_mask)", len(u_test_mask))
     print(dataset_name)
     print(method)
 
