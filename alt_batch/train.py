@@ -278,13 +278,6 @@ def train(args, dataset):
         u_val_mask, u_test_mask, feat_dim, event_counts_u, event_counts_v,
         u_to_idx, v_to_idx, mat_flat, u_feats, v_feats, bad_items_idx, bad_items, labels_items, edge_features) = dataset
     
-    # ANALYZE 15/01/2025
-    print(u_train_mask)
-    print(len(u_train_mask))
-    print(u_val_mask)
-    print(len(u_val_mask))
-    print(u_test_mask)
-    print(len(u_test_mask))
     dataset_name = args.dataset
     device = torch.device(args.device)
     emb_dim = args.emb_dim
@@ -346,6 +339,7 @@ def train(args, dataset):
         test_logp, test_labels = [], []
         train_logp_vs, train_labels_vs = [], []
         val_logp_vs, val_labels_vs = [], []
+        s_train_mask, s_test_mask, s_val_mask = None, None, None
         for group in ["train", "val"]:
             if group == "train":
                 model.train()
@@ -384,8 +378,11 @@ def train(args, dataset):
                                     lengths, select=select)
                             if side_name == "u":
                                 train_mask = u_train_mask[batch_idxs]
+                                s_train_mask = train_mask
                                 val_mask = u_val_mask[batch_idxs]
+                                s_val_mask = val_mask
                                 test_mask = u_test_mask[batch_idxs]
+                                s_test_mask = test_mask
                                 logp = F.log_softmax(out, dim=1)
                                 labels = u_labels[batch_idxs].to(device)
                                 if group == "train":
@@ -693,6 +690,9 @@ def train(args, dataset):
                     'test_logp': test_logp,
                     'test_labels': test_labels,
                     'edge_features': edge_features,
+                    'train_mask': train_mask,
+                    'val_mask': val_mask,
+                    'test_mask': test_mask
                 }, f)
             
             # open the file again to read the predictions
@@ -719,6 +719,12 @@ def train(args, dataset):
                 print("Test labels:", test_labels)
                 print("len test labels:", len(test_labels))
                 print("len edge features:", len(edge_features))
+                print("train_mask:", u_train_mask)
+                print("len train_mask:", len(u_train_mask))
+                print("val_mask:", u_val_mask)
+                print("len val_mask:", len(u_val_mask))
+                print("test_mask:", u_test_mask)
+                print("len test_mask:", len(u_test_mask))
 
             print("Saved predictions to", args.out_preds_path)
         # analyze embs
