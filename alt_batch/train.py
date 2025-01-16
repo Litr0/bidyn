@@ -133,7 +133,7 @@ def load_dataset(args):
     u_test_mask = torch.tensor([u in test_us for u in range(len(us))])
     feat_dim = len(us_to_edges[0][0][2])
     
-    train_feats = []
+    train_feats = [[] for _ in range(len(us))]
     for idx in train_us:
         for t, v, f in us_to_edges[idx]:
             train_feats[idx].append(f)
