@@ -103,7 +103,7 @@ def load_dataset(args):
     print("First 5 u_to_idx items:", list(u_to_idx.items())[:5])
     print("First 5 v_to_idx items:", list(v_to_idx.items())[:5])
     print("First 5 us_to_edges items:", us_to_edges[0])
-    print("First 5 vs_to_edges items:", vs_to_edges[0])
+    print("First 5 vs_to_edges items:", len(vs_to_edges[0]))
 
     labels_items = dataset["labels_items"]
     edge_feats = dataset["edge_feats"]
