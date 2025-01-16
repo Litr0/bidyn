@@ -140,7 +140,8 @@ def load_dataset(args):
     
     print("First 5 Train features: ", train_feats[:5])
     print("Number of train features:", len(train_feats))
-    print("Number of train users:", len(train_us)) 
+    print("First 5 values in u_train_mask", u_train_mask[:5])
+    print("Len of u_train_mask", len(u_train_mask)) 
 
 
     if args.use_discrete_time_batching:
