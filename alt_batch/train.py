@@ -138,11 +138,15 @@ def load_dataset(args):
         for t, v, f in us_to_edges[idx]:
             train_feats[idx].append(f)
     
-    print("First 5 Train features: ", train_feats[:5])
-    print("Number of train features:", len(train_feats))
-    print("First 5 values in u_train_mask", u_train_mask[:5])
-    print("Len of u_train_mask", len(u_train_mask)) 
-
+    val_feats = [[] for _ in range(len(us))]
+    for idx in val_us:
+        for t, v, f in us_to_edges[idx]:
+            val_feats[idx].append(f)
+    
+    test_feats = [[] for _ in range(len(us))]
+    for idx in test_us:
+        for t, v, f in us_to_edges[idx]:
+            test_feats[idx].append(f)
 
     if args.use_discrete_time_batching:
         mats = dataset["mats"]
@@ -198,7 +202,8 @@ def load_dataset(args):
     print(feat_dim, "EDGE FEATURE DIM")
     return (us_to_edges, vs_to_edges, u_labels, v_labels, train_us, u_train_mask,
         u_val_mask, u_test_mask, feat_dim, event_counts_u, event_counts_v,
-        u_to_idx, v_to_idx, mat_flat, u_feats, v_feats, bad_items_idx, bad_items, labels_items, edge_feats)
+        u_to_idx, v_to_idx, mat_flat, u_feats, v_feats, bad_items_idx, bad_items, labels_items, edge_feats, 
+        train_feats, val_feats, test_feats)
 
 max_time_cache = None
 def get_batch(args, model, batch, batch_idxs, lengths,
@@ -287,7 +292,8 @@ def time_encode(x):
 def train(args, dataset):
     (us_to_edges, vs_to_edges, u_labels, v_labels, train_us, u_train_mask,
         u_val_mask, u_test_mask, feat_dim, event_counts_u, event_counts_v,
-        u_to_idx, v_to_idx, mat_flat, u_feats, v_feats, bad_items_idx, bad_items, labels_items, edge_features) = dataset
+        u_to_idx, v_to_idx, mat_flat, u_feats, v_feats, bad_items_idx, bad_items, labels_items, edge_features,
+        train_feats, val_feats, test_feats) = dataset
     
     dataset_name = args.dataset
     device = torch.device(args.device)
@@ -701,6 +707,9 @@ def train(args, dataset):
                     'test_logp': test_logp,
                     'test_labels': test_labels,
                     'edge_features': edge_features,
+                    'train_feats': train_feats,
+                    'val_feats': val_feats,
+                    'test_feats': test_feats,
                 }, f)
             print("Saved predictions to", args.out_preds_path)
         # analyze embs
