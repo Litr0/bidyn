@@ -100,9 +100,6 @@ def load_dataset(args):
 
     u_to_idx, v_to_idx, us_to_edges, vs_to_edges = data.get_edge_lists(dataset)
 
-    print({k: u_to_idx[k] for k in list(u_to_idx)[:5]})
-    print(us_to_edges[0])
-
     labels_items = dataset["labels_items"]
     edge_feats = dataset["edge_feats"]
     u_labels = torch.zeros(len(us_to_edges), dtype=torch.long)
@@ -135,6 +132,10 @@ def load_dataset(args):
     u_val_mask = torch.tensor([u in val_us for u in range(len(us))])
     u_test_mask = torch.tensor([u in test_us for u in range(len(us))])
     feat_dim = len(us_to_edges[0][0][2])
+
+    train_edges = [e for i, l in enumerate(us_to_edges) for e in l if i in train_us]
+    print("Number of training edges:", len(train_edges))
+    print("First training edge:", train_edges[0])
 
     if args.use_discrete_time_batching:
         mats = dataset["mats"]
