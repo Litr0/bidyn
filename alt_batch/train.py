@@ -136,7 +136,7 @@ def load_dataset(args):
     train_feats = []
     for idx in train_us:
         for t, v, f in us_to_edges[idx]:
-            train_feats.append(f)
+            train_feats.append(f[idx])
     
     print("First 5 Train features: ", train_feats[:5])
     print("Number of train features:", len(train_feats))
