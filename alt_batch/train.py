@@ -100,6 +100,8 @@ def load_dataset(args):
 
     u_to_idx, v_to_idx, us_to_edges, vs_to_edges = data.get_edge_lists(dataset)
 
+    print(us_to_edges[0])
+
     labels_items = dataset["labels_items"]
     edge_feats = dataset["edge_feats"]
     u_labels = torch.zeros(len(us_to_edges), dtype=torch.long)
