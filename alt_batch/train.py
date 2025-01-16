@@ -101,6 +101,7 @@ def load_dataset(args):
     u_to_idx, v_to_idx, us_to_edges, vs_to_edges = data.get_edge_lists(dataset)
 
     print(u_to_idx[:5])
+    print({k: u_to_idx[k] for k in list(u_to_idx)[:5]})
     print(us_to_edges[0])
 
     labels_items = dataset["labels_items"]
