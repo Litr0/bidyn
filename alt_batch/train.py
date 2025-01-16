@@ -133,10 +133,6 @@ def load_dataset(args):
     u_test_mask = torch.tensor([u in test_us for u in range(len(us))])
     feat_dim = len(us_to_edges[0][0][2])
 
-    train_feats = [edge_feats[val] for val in train_us]
-    val_feats = [edge_feats[val] for val in val_us]
-    test_feats = [edge_feats[val] for val in test_us]
-
     if args.use_discrete_time_batching:
         mats = dataset["mats"]
         max_time = max(list(mats.keys()))
@@ -191,8 +187,7 @@ def load_dataset(args):
     print(feat_dim, "EDGE FEATURE DIM")
     return (us_to_edges, vs_to_edges, u_labels, v_labels, train_us, u_train_mask,
         u_val_mask, u_test_mask, feat_dim, event_counts_u, event_counts_v,
-        u_to_idx, v_to_idx, mat_flat, u_feats, v_feats, bad_items_idx, bad_items, labels_items, edge_feats, 
-        train_feats, val_feats, test_feats)
+        u_to_idx, v_to_idx, mat_flat, u_feats, v_feats, bad_items_idx, bad_items, labels_items, edge_feats)
 
 max_time_cache = None
 def get_batch(args, model, batch, batch_idxs, lengths,
@@ -281,8 +276,7 @@ def time_encode(x):
 def train(args, dataset):
     (us_to_edges, vs_to_edges, u_labels, v_labels, train_us, u_train_mask,
         u_val_mask, u_test_mask, feat_dim, event_counts_u, event_counts_v,
-        u_to_idx, v_to_idx, mat_flat, u_feats, v_feats, bad_items_idx, bad_items, labels_items, edge_features, 
-        train_feats, val_feats, test_feats) = dataset
+        u_to_idx, v_to_idx, mat_flat, u_feats, v_feats, bad_items_idx, bad_items, labels_items, edge_features) = dataset
     
     dataset_name = args.dataset
     device = torch.device(args.device)
@@ -696,9 +690,6 @@ def train(args, dataset):
                     'test_logp': test_logp,
                     'test_labels': test_labels,
                     'edge_features': edge_features,
-                    'train_feats': train_feats,
-                    'val_feats': val_feats,
-                    'test_feats': test_feats,
                 }, f)
             print("Saved predictions to", args.out_preds_path)
         # analyze embs
