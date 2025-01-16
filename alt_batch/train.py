@@ -132,10 +132,15 @@ def load_dataset(args):
     u_val_mask = torch.tensor([u in val_us for u in range(len(us))])
     u_test_mask = torch.tensor([u in test_us for u in range(len(us))])
     feat_dim = len(us_to_edges[0][0][2])
+    
+    train_feats = []
+    for idx in train_us:
+        for t, v, f in us_to_edges[idx]:
+            train_feats.append(f)
+    
+    print("First 5 Train features: ", train_feats[:5])
+    print("Number of train features:", len(train_feats))
 
-    train_edges = [e for i, l in enumerate(us_to_edges) for e in l if i in train_us]
-    print("Number of training edges:", len(train_edges))
-    print("First training edge:", train_edges[0])
 
     if args.use_discrete_time_batching:
         mats = dataset["mats"]
