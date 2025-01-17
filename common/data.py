@@ -82,7 +82,7 @@ def load_dataset_csv(dataset_name, group="train", variant=None, get_edges=True,
     asin_filter = np.array([(x in users) for x in nodes])
     buyer_filter = np.array([(x not in users) for x in nodes])
 
-    print("bad edges", len(bad_edges))
+    print("bad edges", bad_edges[:5])
 
     d = {
         "mats": [],
