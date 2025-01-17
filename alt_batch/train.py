@@ -104,7 +104,7 @@ def load_dataset(args):
     edge_feats = dataset["edge_feats"]
     labels = dataset["labels"]
     print("labels:", len(labels))
-    print("labels == 1", sum(labels))
+    print("len us_to_edges:", len(us_to_edges))
     u_labels = torch.zeros(len(us_to_edges), dtype=torch.long)
     n_pos_labels = 0
     bad_items = []
