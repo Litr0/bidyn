@@ -696,6 +696,41 @@ def train(args, dataset):
             train_losses.append(normalized_train_loss)
             print("Normalized train loss: {:.4f}".format(normalized_train_loss))
         
+        u_embs_np = u_embs[:-1].detach().cpu().numpy()
+        u_labels_np = u_labels.numpy()
+
+        u_embs_abusive = u_embs_np[u_labels_np == 1]
+        u_embs_non_abusive = u_embs_np[u_labels_np == 0]
+
+        mean_abusive = np.mean(u_embs_abusive, axis=0)
+        std_abusive = np.std(u_embs_abusive, axis=0, ddof=1)
+        mean_non_abusive = np.mean(u_embs_non_abusive, axis=0)
+        std_non_abusive = np.std(u_embs_non_abusive, axis=0, ddof=1)
+
+        print("Mean abusive:", mean_abusive)
+        print("Std abusive:", std_abusive)
+        print("Mean non-abusive:", mean_non_abusive)
+        print("Std non-abusive:", std_non_abusive)
+
+        from sklearn.metrics.pairwise import cosine_similarity
+
+        if len(u_embs_abusive) > 1:
+            cos_sim_abusive = cosine_similarity(u_embs_abusive)
+            mean_sim_abusive = np.mean(cos_sim_abusive)
+        
+        else:
+            mean_sim_abusive = "N/A"
+
+        if len(u_embs_non_abusive) > 1:
+            cos_sim_non_abusive = cosine_similarity(u_embs_non_abusive)
+            mean_sim_non_abusive = np.mean(cos_sim_non_abusive)
+        
+        else:
+            mean_sim_non_abusive = "N/A"
+
+        print("Mean cosine similarity abusive:", mean_sim_abusive)
+        print("Mean cosine similarity non-abusive:", mean_sim_non_abusive)
+
         if is_best:
             # save predictions
             with open(args.out_preds_path, "wb") as f:
