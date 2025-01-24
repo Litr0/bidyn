@@ -726,7 +726,7 @@ def train(args, dataset):
         if len(u_embs_non_abusive) > 1:
             batch_size = 1000  # Adjust batch size as needed
             cos_sim_non_abusive = []
-            for i in range(0, len(u_embs_non_abusive), batch_size):
+            for i in tqdm(range(0, len(u_embs_non_abusive), batch_size)):
                 batch = u_embs_non_abusive[i:i+batch_size]
                 cos_sim = cosine_similarity(batch, u_embs_non_abusive)
                 cos_sim_non_abusive.append(np.mean(cos_sim))
