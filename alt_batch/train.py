@@ -755,7 +755,9 @@ def train(args, dataset):
                     'std_abusive': std_abusive,
                     'mean_non_abusive': mean_non_abusive,
                     'std_non_abusive': std_non_abusive,
+                    'cos_sim_abusive': cos_sim_abusive,
                     'mean_sim_abusive': mean_sim_abusive,
+                    'cos_sim_non_abusive': cos_sim_non_abusive,
                     'mean_sim_non_abusive': mean_sim_non_abusive
                 }, f)
             print("Saved predictions to", args.out_preds_path)
