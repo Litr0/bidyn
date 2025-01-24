@@ -721,14 +721,20 @@ def train(args, dataset):
         else:
             mean_sim_abusive = "N/A"
 
+        print("Mean cosine similarity abusive:", mean_sim_abusive)
+
         if len(u_embs_non_abusive) > 1:
-            cos_sim_non_abusive = cosine_similarity(u_embs_non_abusive)
+            batch_size = 1000  # Adjust batch size as needed
+            cos_sim_non_abusive = []
+            for i in range(0, len(u_embs_non_abusive), batch_size):
+                batch = u_embs_non_abusive[i:i+batch_size]
+                cos_sim = cosine_similarity(batch, u_embs_non_abusive)
+                cos_sim_non_abusive.append(np.mean(cos_sim))
             mean_sim_non_abusive = np.mean(cos_sim_non_abusive)
         
         else:
             mean_sim_non_abusive = "N/A"
 
-        print("Mean cosine similarity abusive:", mean_sim_abusive)
         print("Mean cosine similarity non-abusive:", mean_sim_non_abusive)
 
         if is_best:
