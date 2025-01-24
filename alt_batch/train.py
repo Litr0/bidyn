@@ -751,6 +751,12 @@ def train(args, dataset):
                     'train_feats': train_feats,
                     'val_feats': val_feats,
                     'test_feats': test_feats,
+                    'mean_abusive': mean_abusive,
+                    'std_abusive': std_abusive,
+                    'mean_non_abusive': mean_non_abusive,
+                    'std_non_abusive': std_non_abusive,
+                    'mean_sim_abusive': mean_sim_abusive,
+                    'mean_sim_non_abusive': mean_sim_non_abusive
                 }, f)
             print("Saved predictions to", args.out_preds_path)
         # analyze embs
