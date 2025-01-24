@@ -120,7 +120,7 @@ def get_edge_lists(dataset):
         vs_to_edges[v_to_idx[v]].append((t, u_to_idx[u], feats))
     
     # including more neighbors gives diminishing returns, so still subsample
-    if dataset["name"] in ["reddit", "steam_2017_new_swapped", "steam_2017_new"]:
+    if dataset["name"] in ["reddit", "steam_2017_new_swapped"]:
         for u in tqdm(range(len(us_to_edges))):
             us_to_edges[u] = random.sample(us_to_edges[u], min(200,
                 len(us_to_edges[u])))
