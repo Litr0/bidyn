@@ -697,6 +697,8 @@ def train(args, dataset):
             print("Normalized train loss: {:.4f}".format(normalized_train_loss))
         
         u_embs_np = u_embs[:-1].detach().cpu().numpy()
+        print("u_embs", u_embs)
+        print("u_embs_np", u_embs_np)
         u_labels_np = u_labels.numpy()
 
         u_embs_abusive = u_embs_np[u_labels_np == 1]
@@ -753,6 +755,7 @@ def train(args, dataset):
                     'train_feats': train_feats,
                     'val_feats': val_feats,
                     'test_feats': test_feats,
+                    'u_embs': u_embs,
                     'u_embs_abusive': u_embs_abusive,
                     'u_embs_non_abusive': u_embs_non_abusive,
                     'mean_abusive': mean_abusive,
