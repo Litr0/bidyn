@@ -756,6 +756,7 @@ def train(args, dataset):
                     'val_feats': val_feats,
                     'test_feats': test_feats,
                     'u_embs': u_embs,
+                    'u_embs_np': u_embs_np,
                     'u_embs_abusive': u_embs_abusive,
                     'u_embs_non_abusive': u_embs_non_abusive,
                     'mean_abusive': mean_abusive,
