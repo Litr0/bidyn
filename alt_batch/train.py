@@ -695,8 +695,8 @@ def train(args, dataset):
             normalized_train_loss = train_loss_total_vec_sum / n_batches
             train_losses.append(normalized_train_loss)
             print("Normalized train loss: {:.4f}".format(normalized_train_loss))
+        
         if is_best:
-            
             u_embs_np = u_embs[:-1].detach().cpu().numpy()
             u_labels_np = u_labels.numpy()
 
