@@ -700,7 +700,9 @@ def train(args, dataset):
         u_labels_np = u_labels.numpy()
 
         u_embs_abusive = u_embs_np[u_labels_np == 1]
+        print("Number of abusive users:", len(u_embs_abusive))
         u_embs_non_abusive = u_embs_np[u_labels_np == 0]
+        print("Number of non-abusive users:", len(u_embs_non_abusive))
 
         mean_abusive = np.mean(u_embs_abusive, axis=0)
         std_abusive = np.std(u_embs_abusive, axis=0, ddof=1)
