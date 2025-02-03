@@ -82,11 +82,6 @@ def load_dataset_csv(dataset_name, group="train", variant=None, get_edges=True,
     asin_filter = np.array([(x in users) for x in nodes])
     buyer_filter = np.array([(x not in users) for x in nodes])
 
-    print("Bad users: {}".format(len(bad_users)))
-    print("First 5 bad users: {}".format(list(bad_users)[:5]))
-    print("Bad edges: {}".format(len(bad_edges)))
-    print("First 5 bad edges: {}".format(list(bad_edges)[:5]))
-
     bad_edges_feats = [f for i, f in enumerate(edge_feats) if i in bad_edges]
 
     mean_bad_edge_feats = np.mean(bad_edges_feats, axis=0)
