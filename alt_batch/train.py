@@ -110,7 +110,16 @@ def load_dataset(args):
         if len(line) > 0:
             feats_one.append(np.mean(line, axis=0))
 
-    print("First 5 of feats_one:", feats_one[:5])
+    feats_zero = []
+    for line in feats_us_to_edges_label_zero:
+        if len(line) > 0:
+            feats_zero.append(np.mean(line, axis=0))
+    
+    feats_one_mean = np.mean(feats_one, axis=0)
+    feats_zero_mean = np.mean(feats_zero, axis=0)
+
+    print("Mean of features for label 1:", feats_one_mean)
+    print("Mean of features for label 0:", feats_zero_mean)
 
     labels_items = dataset["labels_items"]
     edge_feats = dataset["edge_feats"]
