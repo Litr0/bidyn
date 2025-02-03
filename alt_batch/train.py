@@ -100,6 +100,14 @@ def load_dataset(args):
 
     u_to_idx, v_to_idx, us_to_edges, vs_to_edges , us_to_edges_labels, vs_to_edges_labels= data.get_edge_lists(dataset)
 
+    feats_mean_us_to_edges_label_one = [np.mean([f for t, v, f in l if label == 1], axis=0) for l in us_to_edges_labels]
+    feats_mean_us_to_edges_label_zero = [np.mean([f for t, v, f in l if label == 0], axis=0) for l in us_to_edges_labels]
+
+    print("Mean feats for label 1:")
+    print(np.mean(feats_mean_us_to_edges_label_one, axis=0))
+    print("Mean feats for label 0:")
+    print(np.mean(feats_mean_us_to_edges_label_zero, axis=0))
+
     labels_items = dataset["labels_items"]
     edge_feats = dataset["edge_feats"]
     u_labels = torch.zeros(len(us_to_edges), dtype=torch.long)
