@@ -105,7 +105,8 @@ def load_dataset(args):
     feats_us_to_edges_label_one = [[f for t, v, f, label in l if label == 1] for l in us_to_edges_labels]
     feats_us_to_edges_label_zero = [[f for t, v, f, label in l if label == 0] for l in us_to_edges_labels]
 
-    print("First 5 of feats_us_to_edges_label_one:", feats_us_to_edges_label_one[:5])
+    print("len of feats_us_to_edges_label_one:", len(feats_us_to_edges_label_one))
+    print("len of feats_us_to_edges_label_zero:", len(feats_us_to_edges_label_zero))
 
     labels_items = dataset["labels_items"]
     edge_feats = dataset["edge_feats"]
