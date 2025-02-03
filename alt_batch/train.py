@@ -102,13 +102,10 @@ def load_dataset(args):
 
     print("First 5 of us_to_edges_labels:", us_to_edges_labels[:5])
 
-    feats_mean_us_to_edges_label_one = [np.mean([f for t, v, f, label in l if label == 1], axis=0) for l in us_to_edges_labels]
-    feats_mean_us_to_edges_label_zero = [np.mean([f for t, v, f, label in l if label == 0], axis=0) for l in us_to_edges_labels]
+    feats_us_to_edges_label_one = [[f for t, v, f, label in l if label == 1] for l in us_to_edges_labels]
+    feats_us_to_edges_label_zero = [[f for t, v, f, label in l if label == 0] for l in us_to_edges_labels]
 
-    print("Mean feats for label 1:")
-    print(np.mean(feats_mean_us_to_edges_label_one, axis=0))
-    print("Mean feats for label 0:")
-    print(np.mean(feats_mean_us_to_edges_label_zero, axis=0))
+    print("First 5 of feats_us_to_edges_label_one:", feats_us_to_edges_label_one[:5])
 
     labels_items = dataset["labels_items"]
     edge_feats = dataset["edge_feats"]
