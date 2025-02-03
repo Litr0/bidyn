@@ -102,7 +102,7 @@ def load_dataset(args):
 
     print("First 5 of us_to_edges_labels:", us_to_edges_labels[:5])
 
-    for v, t, f, l in us_to_edges_labels:
+    for (t, v, f, l) in us_to_edges_labels:
         if l == 1:
             print(v, t, f, l)
 
