@@ -125,7 +125,7 @@ def get_edge_lists(dataset):
         us_to_edges[u_to_idx[u]].append((t, v_to_idx[v], feats))
         vs_to_edges[v_to_idx[v]].append((t, u_to_idx[u], feats))
     
-    labels = dataset
+    labels = dataset["labels"]
     us_to_edges_labels = [[] for _ in range(len(us))]
     vs_to_edges_labels = [[] for _ in range(len(vs))]
     for (u, v, t), feats, label in zip(dataset["edges"], dataset["edge_feats"], labels):
