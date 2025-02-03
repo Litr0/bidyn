@@ -98,12 +98,7 @@ class BipartiteAltBatcher(nn.Module):
 def load_dataset(args):
     dataset = data.load_dataset(args.dataset, get_edges=True)
 
-    u_to_idx, v_to_idx, us_to_edges, vs_to_edges , us_to_edges_labels_one, us_to_edges_labels_zero, vs_to_edges_labels = data.get_edge_lists(dataset)
-
-    mean_feats_us_to_edges_one = [np.mean([f for t, v, f, l in l], axis=0) for l in us_to_edges_labels_one]
-    mean_feats_us_to_edges_zero = [np.mean([f for t, v, f, l in l], axis=0) for l in us_to_edges_labels_zero]
-    print("Mean feats for us_to_edges with label 1: {}".format(np.mean(mean_feats_us_to_edges_one, axis=0)))
-    print("Mean feats for us_to_edges with label 0: {}".format(np.mean(mean_feats_us_to_edges_zero, axis=0)))
+    u_to_idx, v_to_idx, us_to_edges, vs_to_edges , us_to_edges_labels, vs_to_edges_labels= data.get_edge_lists(dataset)
 
     labels_items = dataset["labels_items"]
     edge_feats = dataset["edge_feats"]
