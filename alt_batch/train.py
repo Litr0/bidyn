@@ -98,7 +98,10 @@ class BipartiteAltBatcher(nn.Module):
 def load_dataset(args):
     dataset = data.load_dataset(args.dataset, get_edges=True)
 
-    u_to_idx, v_to_idx, us_to_edges, vs_to_edges = data.get_edge_lists(dataset)
+    u_to_idx, v_to_idx, us_to_edges, vs_to_edges , us_to_edges_labels, vs_to_edges_labels= data.get_edge_lists(dataset)
+
+    print("First 5  of us_to_edges_labels", us_to_edges_labels[:5])
+    print("First 5  of vs_to_edges_labels", vs_to_edges_labels[:5])
 
     labels_items = dataset["labels_items"]
     edge_feats = dataset["edge_feats"]

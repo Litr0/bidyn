@@ -125,6 +125,14 @@ def get_edge_lists(dataset):
         us_to_edges[u_to_idx[u]].append((t, v_to_idx[v], feats))
         vs_to_edges[v_to_idx[v]].append((t, u_to_idx[u], feats))
     
+    labels = dataset
+    us_to_edges_labels = [[] for _ in range(len(us))]
+    vs_to_edges_labels = [[] for _ in range(len(vs))]
+    for (u, v, t), feats, label in zip(dataset["edges"], dataset["edge_feats"], labels):
+        if not (dataset["asin_filter"][u] and dataset["buyer_filter"][v]):
+            continue
+        us_to_edges_labels[u_to_idx[u]].append((t, v_to_idx[v], feats, label))
+        vs_to_edges_labels[v_to_idx[v]].append((t, u_to_idx[u], feats, label))
     # including more neighbors gives diminishing returns, so still subsample
     if dataset["name"] in ["reddit", "steam_2017_new_swapped"]:
         for u in tqdm(range(len(us_to_edges))):
@@ -134,4 +142,4 @@ def get_edge_lists(dataset):
             vs_to_edges[v] = random.sample(vs_to_edges[v], min(200,
                 len(vs_to_edges[v])))
 
-    return u_to_idx, v_to_idx, us_to_edges, vs_to_edges
+    return u_to_idx, v_to_idx, us_to_edges, vs_to_edges, us_to_edges_labels, vs_to_edges_labels
