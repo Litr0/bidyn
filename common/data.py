@@ -84,6 +84,8 @@ def load_dataset_csv(dataset_name, group="train", variant=None, get_edges=True,
 
     print("Bad users: {}".format(len(bad_users)))
     print("First 5 bad users: {}".format(list(bad_users)[:5]))
+    print("Bad edges: {}".format(len(bad_edges)))
+    print("First 5 bad edges: {}".format(list(bad_edges)[:5]))
 
     d = {
         "mats": [],
