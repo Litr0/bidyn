@@ -100,6 +100,8 @@ def load_dataset(args):
 
     u_to_idx, v_to_idx, us_to_edges, vs_to_edges , us_to_edges_labels, vs_to_edges_labels= data.get_edge_lists(dataset)
 
+    print("First 5 of us_to_edges_labels:", us_to_edges_labels[:5])
+
     feats_mean_us_to_edges_label_one = [np.mean([f for u, v, t, f, label in l if label == 1], axis=0) for l in us_to_edges_labels]
     feats_mean_us_to_edges_label_zero = [np.mean([f for u, v, t, f, label in l if label == 0], axis=0) for l in us_to_edges_labels]
 
