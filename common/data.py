@@ -87,8 +87,11 @@ def load_dataset_csv(dataset_name, group="train", variant=None, get_edges=True,
     print("Bad edges: {}".format(len(bad_edges)))
     print("First 5 bad edges: {}".format(list(bad_edges)[:5]))
 
-    print("Edges feats shape: {}".format(np.array(edge_feats).shape))
-    print("First 5 edge feats: {}".format(edge_feats[:5]))
+    bad_edges_feats = [f for i, f in enumerate(edge_feats) if i in bad_edges]
+
+    mean_bad_edge_feats = np.mean(bad_edges_feats, axis=0)
+
+    print("Mean bad edge feats: {}".format(mean_bad_edge_feats))
 
     d = {
         "mats": [],
