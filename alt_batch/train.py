@@ -110,6 +110,10 @@ def load_dataset(args):
         if len(line) > 0:
             feats_one.append(np.mean(line, axis=0))
 
+
+    print("First 5 of feats_one:", feats_one[:5])
+    print("Length of feats_one:", len(feats_one))
+
     feats_zero = []
     for line in feats_us_to_edges_label_zero:
         if len(line) > 0:
