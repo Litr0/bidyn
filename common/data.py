@@ -94,7 +94,7 @@ def load_dataset_csv(dataset_name, group="train", variant=None, get_edges=True,
     print("Mean bad edge feats: {}".format(mean_bad_edge_feats))
 
     for edge in zip(edges, edge_feats):
-        u, v, t, feats = edge
+        (u, v, t), feats = edge
         if u in full_bad_edges and feats not in full_bad_edges[u]:
             full_bad_edges[u].append(feats)
 
