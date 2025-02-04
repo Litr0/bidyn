@@ -106,15 +106,15 @@ def load_dataset(args):
     feats_us_to_edges_label_one = [[f for t, v, f, label in l if label == 1] for l in us_to_edges_labels]
     feats_us_to_edges_label_zero = [[f for t, v, f, label in l if label == 0] for l in us_to_edges_labels]
 
+    with open('feats_us_to_edges_labels.csv', 'w', newline='') as csvfile:
+        csvwriter = csv.writer(csvfile)
+        for row in us_to_edges_labels:
+            csvwriter.writerow(row)
+
     feats_one = []
     for line in feats_us_to_edges_label_one:
         if len(line) > 0:
             feats_one.append(np.mean(line, axis=0))
-
-    with open('data/feats_one.csv', 'w', newline='') as csvfile:
-        writer = csv.writer(csvfile)
-        writer.writerow(['Feature_{}'.format(i) for i in range(len(feats_one[0]))])
-        writer.writerows(feats_one)
 
     feats_zero = []
     for line in feats_us_to_edges_label_zero:
