@@ -106,11 +106,6 @@ def load_dataset(args):
     feats_us_to_edges_label_one = [[f for t, v, f, label in l if label == 1] for l in us_to_edges_labels]
     feats_us_to_edges_label_zero = [[f for t, v, f, label in l if label == 0] for l in us_to_edges_labels]
 
-    with open('data/feats_us_to_edges_labels.csv', 'w', newline='') as csvfile:
-        csvwriter = csv.writer(csvfile)
-        for row in us_to_edges_labels:
-            csvwriter.writerow(row)
-
     feats_one = []
     for line in feats_us_to_edges_label_one:
         if len(line) > 0:
