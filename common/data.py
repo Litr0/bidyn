@@ -25,6 +25,7 @@ def load_dataset_csv(dataset_name, group="train", variant=None, get_edges=True,
     node_types = {}
     bad_users = set()
     bad_edges = set()
+    full_bad_edges = set()
     labels_items = []
     removed_users = set()
     users = set()
@@ -55,6 +56,8 @@ def load_dataset_csv(dataset_name, group="train", variant=None, get_edges=True,
             node_types[user] = 0
             node_types[item] = 1
             feats = [float(x) for x in toks[4:]]
+            if label == 1:
+                full_bad_edges.add([user, item, feats])
             feats_len = len(feats)
             edge_labels[user, item] = label
             edge_labels[item, user] = label
@@ -87,6 +90,16 @@ def load_dataset_csv(dataset_name, group="train", variant=None, get_edges=True,
     mean_bad_edge_feats = np.mean(bad_edges_feats, axis=0)
 
     print("Mean bad edge feats: {}".format(mean_bad_edge_feats))
+
+    bad_user_feats = {}
+    for edge in full_bad_edges:
+        user, item, feats = edge
+        if user not in bad_user_feats:
+            bad_user_feats[user] = []
+        bad_user_feats[user].append(feats)
+
+    max_len = max(len(arr) for arr in bad_user_feats.values())
+    print("Max length of arrays in bad_user_feats: {}".format(max_len))
 
     d = {
         "mats": [],
