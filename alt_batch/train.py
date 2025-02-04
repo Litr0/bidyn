@@ -2,6 +2,7 @@ from collections import defaultdict, Counter
 import os
 import pickle
 import random
+import csv
 
 import matplotlib.pyplot as plt
 import networkx as nx
@@ -110,9 +111,10 @@ def load_dataset(args):
         if len(line) > 0:
             feats_one.append(np.mean(line, axis=0))
 
-
-    print("First 5 of feats_one:", feats_one[:5])
-    print("Length of feats_one:", len(feats_one))
+    with open('data/feats_one.csv', 'w', newline='') as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerow(['Feature_{}'.format(i) for i in range(len(feats_one[0]))])
+        writer.writerows(feats_one)
 
     feats_zero = []
     for line in feats_us_to_edges_label_zero:
