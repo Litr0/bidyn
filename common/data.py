@@ -25,7 +25,7 @@ def load_dataset_csv(dataset_name, group="train", variant=None, get_edges=True,
     node_types = {}
     bad_users = set()
     bad_edges = set()
-    full_bad_edges = set()
+    full_bad_edges = []
     labels_items = []
     removed_users = set()
     users = set()
@@ -57,7 +57,7 @@ def load_dataset_csv(dataset_name, group="train", variant=None, get_edges=True,
             node_types[item] = 1
             feats = [float(x) for x in toks[4:]]
             if label == 1:
-                full_bad_edges.add((user, item, feats))
+                full_bad_edges.append((user, item, feats))
             feats_len = len(feats)
             edge_labels[user, item] = label
             edge_labels[item, user] = label
