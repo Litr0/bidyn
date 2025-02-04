@@ -106,7 +106,6 @@ def load_dataset_csv(dataset_name, group="train", variant=None, get_edges=True,
 
     print("Mean bad user feats: {}".format(mean_bad_edge_feats))
 
-
     d = {
         "mats": [],
         "mat_flat": mat_flat,
