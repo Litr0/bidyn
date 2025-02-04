@@ -104,7 +104,9 @@ def load_dataset_csv(dataset_name, group="train", variant=None, get_edges=True,
     for user, feats in bad_user_feats.items():
         mean_bad_user_feats[user] = np.mean(feats, axis=0)
 
-    print("Mean bad user feats: {}".format(mean_bad_user_feats))
+    mean_bad_users = np.mean(list(mean_bad_user_feats.values()), axis=0)
+
+    print("Mean bad users: {}".format(mean_bad_users))
 
     d = {
         "mats": [],
