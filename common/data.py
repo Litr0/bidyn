@@ -97,9 +97,14 @@ def load_dataset_csv(dataset_name, group="train", variant=None, get_edges=True,
         if user not in bad_user_feats:
             bad_user_feats[user] = []
         bad_user_feats[user].append(feats)
+    
+    print("Number of bad users: {}".format(len(bad_user_feats)))
 
-    max_len = max(len(arr) for arr in bad_user_feats.values())
-    print("Max length of arrays in bad_user_feats: {}".format(max_len))
+    mean_bad_user_feats = {}
+    for user, feats in bad_user_feats.items():
+        mean_bad_user_feats[user] = np.mean(feats, axis=0)
+
+    print("Mean bad user feats: {}".format(mean_bad_user_feats))
 
     d = {
         "mats": [],
