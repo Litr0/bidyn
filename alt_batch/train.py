@@ -124,6 +124,10 @@ def load_dataset(args):
 
     labels_items = dataset["labels_items"]
     edge_feats = dataset["edge_feats"]
+    bad_edges = dataset["bad_edges"]
+    labels = dataset["labels"]
+    edges = dataset["edges"]
+    bad_edges_feats = [f for i, f in enumerate(edge_feats) if i in bad_edges]
     u_labels = torch.zeros(len(us_to_edges), dtype=torch.long)
     n_pos_labels = 0
     bad_items = []
@@ -225,7 +229,7 @@ def load_dataset(args):
     return (us_to_edges, vs_to_edges, u_labels, v_labels, train_us, u_train_mask,
         u_val_mask, u_test_mask, feat_dim, event_counts_u, event_counts_v,
         u_to_idx, v_to_idx, mat_flat, u_feats, v_feats, bad_items_idx, bad_items, labels_items, edge_feats, 
-        train_feats, val_feats, test_feats)
+        train_feats, val_feats, test_feats, bad_edges_feats, bad_edges)
 
 max_time_cache = None
 def get_batch(args, model, batch, batch_idxs, lengths,
@@ -315,7 +319,7 @@ def train(args, dataset):
     (us_to_edges, vs_to_edges, u_labels, v_labels, train_us, u_train_mask,
         u_val_mask, u_test_mask, feat_dim, event_counts_u, event_counts_v,
         u_to_idx, v_to_idx, mat_flat, u_feats, v_feats, bad_items_idx, bad_items, labels_items, edge_features,
-        train_feats, val_feats, test_feats) = dataset
+        train_feats, val_feats, test_feats, bad_edges_feats, bad_edges) = dataset
     
     dataset_name = args.dataset
     device = torch.device(args.device)
@@ -787,7 +791,9 @@ def train(args, dataset):
                     'cos_sim_abusive': cos_sim_abusive,
                     'mean_sim_abusive': mean_sim_abusive,
                     'cos_sim_non_abusive': cos_sim_non_abusive,
-                    'mean_sim_non_abusive': mean_sim_non_abusive
+                    'mean_sim_non_abusive': mean_sim_non_abusive,
+                    'bad_edges_feats': bad_edges_feats,
+                    'bad_edges': bad_edges
                 }, f)
             print("Saved predictions to", args.out_preds_path)
         # analyze embs

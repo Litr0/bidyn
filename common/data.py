@@ -162,18 +162,9 @@ def get_edge_lists(dataset):
         if feats in bad_edges_feats:
             us_to_edges_labels[u_to_idx[u]].append((t, v_to_idx[v], feats, 1))
             vs_to_edges_labels[v_to_idx[v]].append((t, u_to_idx[u], feats, 1))
-            if labels[u_to_idx[u]] == 1:
-                success_1 += 1
-            else:    
-                error_1 += 1
         else:
             us_to_edges_labels[u_to_idx[u]].append((t, v_to_idx[v], feats, 0))
             vs_to_edges_labels[v_to_idx[v]].append((t, u_to_idx[u], feats, 0))
-            if labels[u_to_idx[u]] == 0:
-                success_0 += 1
-            else:
-                error_0 += 1
-    print("Success 1: {}, Error 1: {}, Success 0: {}, Error 0: {}".format(success_1, error_1, success_0, error_0))
 
     # including more neighbors gives diminishing returns, so still subsample
     if dataset["name"] in ["reddit", "steam_2017_new_swapped"]:
