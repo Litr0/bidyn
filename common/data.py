@@ -165,22 +165,22 @@ def get_edge_lists(dataset):
             vs_to_edges_labels[v_to_idx[v]].append((t, u_to_idx[u], feats, 1))
             if labels[u_to_idx[u]] == 1:
                 success_1[1] += 1
-            else:    
+            elif labels[u_to_idx[u]] == 0:    
                 error_1[1] += 1
-            if label == 1:
+            elif label == 1:
                 success_1[0] += 1
-            else:
+            elif label == 0:
                 error_1[0] += 1
         else:
             us_to_edges_labels[u_to_idx[u]].append((t, v_to_idx[v], feats, 0))
             vs_to_edges_labels[v_to_idx[v]].append((t, u_to_idx[u], feats, 0))
             if labels[u_to_idx[u]] == 0:
                 success_0[1] += 1
-            else:
+            elif labels[u_to_idx[u]] == 1:
                 error_0[1] += 1
-            if label == 0:
+            elif label == 0:
                 success_0[0] += 1
-            else:
+            elif label == 1:
                 error_0[0] += 1
     print("Success 1: {}".format(success_1))
     print("Error 1: {}".format(error_1))
