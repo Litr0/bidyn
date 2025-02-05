@@ -12,6 +12,7 @@ from scipy.sparse import csr_matrix
 import networkx as nx
 import random
 from tqdm import tqdm
+import time
 
 def load_dataset(name, **kwargs):
     return load_dataset_csv(name, **kwargs)
@@ -148,18 +149,33 @@ def get_edge_lists(dataset):
     
     bad_edges = dataset["bad_edges"]
     edge_feats = dataset["edge_feats"]
+    labels = dataset["labels"]
     bad_edges_feats = [f for i, f in enumerate(edge_feats) if i in bad_edges]
     us_to_edges_labels = [[] for _ in range(len(us))]
     vs_to_edges_labels = [[] for _ in range(len(vs))]
-    for (u, v, t), feats in tqdm(zip(dataset["edges"], edge_feats), total=len(dataset["edges"])):
+    success_1 = 0
+    error_1 = 0
+    success_0 = 0
+    error_0 = 0
+    for (u, v, t), feats, label in tqdm(zip(dataset["edges"], edge_feats, labels), total=len(dataset["edges"])):
         if not (dataset["asin_filter"][u] and dataset["buyer_filter"][v]):
             continue
         if feats in bad_edges_feats:
             us_to_edges_labels[u_to_idx[u]].append((t, v_to_idx[v], feats, 1))
             vs_to_edges_labels[v_to_idx[v]].append((t, u_to_idx[u], feats, 1))
+            if label == 1:
+                success_1 += 1
+            else:    
+                error_1 += 1
         else:
             us_to_edges_labels[u_to_idx[u]].append((t, v_to_idx[v], feats, 0))
             vs_to_edges_labels[v_to_idx[v]].append((t, u_to_idx[u], feats, 0))
+            if label == 0:
+                success_0 += 1
+            else:
+                error_0 += 1
+    print("Success 1: {}, Error 1: {}, Success 0: {}, Error 0: {}".format(success_1, error_1, success_0, error_0))
+
     # including more neighbors gives diminishing returns, so still subsample
     if dataset["name"] in ["reddit", "steam_2017_new_swapped"]:
         for u in tqdm(range(len(us_to_edges))):
