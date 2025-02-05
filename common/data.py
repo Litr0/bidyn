@@ -120,6 +120,7 @@ def load_dataset_csv(dataset_name, group="train", variant=None, get_edges=True,
         "buyer_to_idx": None,
         "edge_feats": edge_feats,
         "edges": edges,  # edges are in time order. edge_feats follows same order
+        "bad_edges": bad_edges,
         "labels_items": labels_items,
         "name": dataset_name
     }
@@ -143,14 +144,20 @@ def get_edge_lists(dataset):
         us_to_edges[u_to_idx[u]].append((t, v_to_idx[v], feats))
         vs_to_edges[v_to_idx[v]].append((t, u_to_idx[u], feats))
     
-    labels = dataset["labels"]
+    bad_edges = dataset["bad_edges"]
+    edge_feats = dataset["edge_feats"]
+    bad_edges_feats = [f for i, f in enumerate(edge_feats) if i in bad_edges]
     us_to_edges_labels = [[] for _ in range(len(us))]
     vs_to_edges_labels = [[] for _ in range(len(vs))]
-    for (u, v, t), feats, label in zip(dataset["edges"], dataset["edge_feats"], labels):
+    for (u, v, t), feats in tqdm(zip(dataset["edges"], edge_feats)):
         if not (dataset["asin_filter"][u] and dataset["buyer_filter"][v]):
             continue
-        us_to_edges_labels[u_to_idx[u]].append((t, v_to_idx[v], feats, label))
-        vs_to_edges_labels[v_to_idx[v]].append((t, u_to_idx[u], feats, label))
+        if feats in bad_edges_feats:
+            us_to_edges_labels[u_to_idx[u]].append((t, v_to_idx[v], feats, 1))
+            vs_to_edges_labels[v_to_idx[v]].append((t, u_to_idx[u], feats, 1))
+        else:
+            us_to_edges_labels[u_to_idx[u]].append((t, v_to_idx[v], feats, 0))
+            vs_to_edges_labels[v_to_idx[v]].append((t, u_to_idx[u], feats, 0))
     # including more neighbors gives diminishing returns, so still subsample
     if dataset["name"] in ["reddit", "steam_2017_new_swapped"]:
         for u in tqdm(range(len(us_to_edges))):
