@@ -151,7 +151,7 @@ def get_edge_lists(dataset):
     bad_edges_feats = [f for i, f in enumerate(edge_feats) if i in bad_edges]
     us_to_edges_labels = [[] for _ in range(len(us))]
     vs_to_edges_labels = [[] for _ in range(len(vs))]
-    for (u, v, t), feats in tqdm(zip(dataset["edges"], edge_feats)):
+    for (u, v, t), feats in tqdm(zip(dataset["edges"], edge_feats), total=len(dataset["edges"])):
         if not (dataset["asin_filter"][u] and dataset["buyer_filter"][v]):
             continue
         if feats in bad_edges_feats:
