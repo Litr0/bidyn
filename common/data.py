@@ -85,9 +85,7 @@ def load_dataset_csv(dataset_name, group="train", variant=None, get_edges=True,
     n_asins = len(users)
     n_buyers = len(nodes) - n_asins
     asin_filter = np.array([(x in users) for x in nodes])
-    print("asin_filter value counts: {}".format(np.unique(asin_filter, return_counts=True)))
     buyer_filter = np.array([(x not in users) for x in nodes])
-    print("buyer_filter value counts: {}".format(np.unique(buyer_filter, return_counts=True)))
 
     bad_edges_feats = [f for i, f in enumerate(edge_feats) if i in bad_edges]
 
