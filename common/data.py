@@ -12,7 +12,6 @@ from scipy.sparse import csr_matrix
 import networkx as nx
 import random
 from tqdm import tqdm
-import time
 
 def load_dataset(name, **kwargs):
     return load_dataset_csv(name, **kwargs)
