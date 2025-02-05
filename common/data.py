@@ -157,7 +157,6 @@ def get_edge_lists(dataset):
     error_1 = 0
     success_0 = 0
     error_0 = 0
-    print("Length of labels: {}".format(len(labels)))
     for (u, v, t), feats in tqdm(zip(dataset["edges"], edge_feats), total=len(dataset["edges"])):
         if not (dataset["asin_filter"][u] and dataset["buyer_filter"][v]):
             continue
