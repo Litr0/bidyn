@@ -177,7 +177,7 @@ def get_edge_lists(dataset):
     for i, (label, new_label) in enumerate(zip(dataset["labels"], new_labels)):
         if label != new_label:
             mismatch_count += 1
-            if len(mismatches) < 10:
+            if len(mismatches) < 12:
                 mismatches.append((i, label, new_label))
     print(f"Number of mismatches: {mismatch_count}")
     if mismatches:
