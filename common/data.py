@@ -162,7 +162,7 @@ def get_edge_lists(dataset):
     error_1 = 0
     success_0 = 0
     error_0 = 0
-    for (u, v, t), feats, us, label in tqdm(zip(dataset["edges"], edge_feats, dataset["labels_users"]), total=len(dataset["edges"])):
+    for (u, v, t), feats, label, us in tqdm(zip(dataset["edges"], edge_feats, dataset["labels_users"]), total=len(dataset["edges"])):
         if not (dataset["asin_filter"][u] and dataset["buyer_filter"][v]):
             continue
         us_to_edges_labels[u_to_idx[u]].append((t, v_to_idx[v], feats, label))
