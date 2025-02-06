@@ -155,6 +155,7 @@ def get_edge_lists(dataset):
     bad_edges = dataset["bad_edges"]
     edge_feats = dataset["edge_feats"]
     labels = dataset["labels"]
+    to_compare_labels = [[] for _ in range(len(us))]
     bad_edges_feats = [f for i, f in enumerate(edge_feats) if i in bad_edges]
     us_to_edges_labels = [[] for _ in range(len(us))]
     vs_to_edges_labels = [[] for _ in range(len(vs))]
@@ -167,7 +168,18 @@ def get_edge_lists(dataset):
             continue
         us_to_edges_labels[u_to_idx[u]].append((t, v_to_idx[v], feats, label_us[0]))
         vs_to_edges_labels[v_to_idx[v]].append((t, u_to_idx[u], feats, label_us[0]))
-
+        to_compare_labels[u_to_idx[u]].append(label_us[0])
+    
+    new_labels = []
+    for i, labels in enumerate(to_compare_labels):
+        if sum(labels) == 0:
+            new_labels.append(0)
+        else:
+            new_labels.append(1)
+    
+    for i, (label, new_label) in enumerate(zip(dataset["labels"], new_labels)):
+        if label != new_label:
+            print(f"Mismatch at index {i}: label={label}, new_label={new_label}")
 
     print("Length of us_to_edges_labels: {}".format(len(us_to_edges_labels)))
     # including more neighbors gives diminishing returns, so still subsample
