@@ -177,9 +177,16 @@ def get_edge_lists(dataset):
         else:
             new_labels.append(1)
     
+    mismatch_count = 0
+    first_mismatch = None
     for i, (label, new_label) in enumerate(zip(dataset["labels"], new_labels)):
         if label != new_label:
-            print(f"Mismatch at index {i}: label={label}, new_label={new_label}")
+            mismatch_count += 1
+            if first_mismatch is None:
+                first_mismatch = i
+    print(f"Number of mismatches: {mismatch_count}")
+    if first_mismatch is not None:
+        print(f"First mismatch at index {first_mismatch}: label={dataset['labels'][first_mismatch]}, new_label={new_labels[first_mismatch]}")
 
     print("Length of us_to_edges_labels: {}".format(len(us_to_edges_labels)))
     # including more neighbors gives diminishing returns, so still subsample
