@@ -27,6 +27,7 @@ def load_dataset_csv(dataset_name, group="train", variant=None, get_edges=True,
     bad_edges = set()
     full_bad_edges = {}
     labels_items = []
+    labels_users = []
     removed_users = set()
     users = set()
     feats_len = None
@@ -48,6 +49,7 @@ def load_dataset_csv(dataset_name, group="train", variant=None, get_edges=True,
             line_num += 1
             label = int(toks[3])
             labels_items.append((label, toks[1]))
+            labels_users.append((label, toks[0]))
             if label == 1:
                 bad_users.add(user)
                 bad_edges.add(idx)
@@ -124,6 +126,7 @@ def load_dataset_csv(dataset_name, group="train", variant=None, get_edges=True,
         "edges": edges,  # edges are in time order. edge_feats follows same order
         "bad_edges": bad_edges,
         "labels_items": labels_items,
+        "labels_users": labels_users,
         "name": dataset_name
     }
     return d
@@ -159,15 +162,11 @@ def get_edge_lists(dataset):
     error_1 = 0
     success_0 = 0
     error_0 = 0
-    for (u, v, t), feats in tqdm(zip(dataset["edges"], edge_feats), total=len(dataset["edges"])):
+    for (u, v, t), feats, us, label in tqdm(zip(dataset["edges"], edge_feats, dataset["labels_users"]), total=len(dataset["edges"])):
         if not (dataset["asin_filter"][u] and dataset["buyer_filter"][v]):
             continue
-        if feats in bad_edges_feats:
-            us_to_edges_labels[u_to_idx[u]].append((t, v_to_idx[v], feats, 1))
-            vs_to_edges_labels[v_to_idx[v]].append((t, u_to_idx[u], feats, 1))
-        else:
-            us_to_edges_labels[u_to_idx[u]].append((t, v_to_idx[v], feats, 0))
-            vs_to_edges_labels[v_to_idx[v]].append((t, u_to_idx[u], feats, 0))
+        us_to_edges_labels[u_to_idx[u]].append((t, v_to_idx[v], feats, label))
+        vs_to_edges_labels[v_to_idx[v]].append((t, u_to_idx[u], feats, label))
 
     # including more neighbors gives diminishing returns, so still subsample
     if dataset["name"] in ["reddit", "steam_2017_new_swapped"]:
