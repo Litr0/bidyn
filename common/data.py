@@ -168,6 +168,8 @@ def get_edge_lists(dataset):
         us_to_edges_labels[u_to_idx[u]].append((t, v_to_idx[v], feats, label_us[0]))
         vs_to_edges_labels[v_to_idx[v]].append((t, u_to_idx[u], feats, label_us[0]))
 
+
+    print("Length of us_to_edges_labels: {}".format(len(us_to_edges_labels)))
     # including more neighbors gives diminishing returns, so still subsample
     if dataset["name"] in ["reddit", "steam_2017_new_swapped"]:
         for u in tqdm(range(len(us_to_edges))):
