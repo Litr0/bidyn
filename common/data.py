@@ -138,6 +138,9 @@ def get_edge_lists(dataset):
     u_to_idx = {u: i for i, u in enumerate(sorted(us))}
     v_to_idx = {v: i for i, v in enumerate(sorted(vs))}
 
+    print("Length of u_to_idx: {}".format(len(u_to_idx)))
+    print("First 10 u_to_idx: {}".format(list(u_to_idx.items())[:10]))
+
     us_to_edges = [[] for _ in range(len(us))]
     vs_to_edges = [[] for _ in range(len(vs))]
     for (u, v, t), feats in tqdm(zip(dataset["edges"], dataset["edge_feats"])):
