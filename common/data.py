@@ -181,7 +181,7 @@ def get_edge_lists(dataset):
                 mismatches.append((i, label, new_label))
     print(f"Number of mismatches: {mismatch_count}")
     if mismatches:
-        print("First 10 mismatches:")
+        print("First 12 mismatches:")
         for idx, label, new_label in mismatches:
             print(f"Index {idx}: label={label}, new_label={new_label}")
 
