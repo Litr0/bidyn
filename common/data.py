@@ -79,6 +79,7 @@ def load_dataset_csv(dataset_name, group="train", variant=None, get_edges=True,
     nodes, node_types = zip(*sorted(node_types.items(), key=lambda x: x[1]))
     nodes, node_types = list(nodes), list(node_types)
     node_to_idx = {u: i for i, u in enumerate(nodes)}
+    edge_with_feats = [(node_to_idx[u], node_to_idx[v], t, f) for (u, v, t), f in zip(edges, edge_feats)]
     edges = [(node_to_idx[u], node_to_idx[v], t) for u, v, t in edges]
 
     mat_flat = nx.to_scipy_sparse_array(graph, nodelist=nodes)
@@ -95,8 +96,8 @@ def load_dataset_csv(dataset_name, group="train", variant=None, get_edges=True,
 
     print("Mean bad edge feats: {}".format(mean_bad_edge_feats))
 
-    for edge in zip(edges, edge_feats):
-        (u, v, t), feats = edge
+    for edge in edge_with_feats:
+        u, v, t, feats = edge
         if u in full_bad_edges and feats not in full_bad_edges[u]:
             full_bad_edges[u].append(feats)
 
