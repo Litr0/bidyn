@@ -77,6 +77,7 @@ def load_dataset_csv(dataset_name, group="train", variant=None, get_edges=True,
         removed_users}
     graph.add_edges_from([x[:2] for x in edges])
     nodes, node_types = zip(*sorted(node_types.items(), key=lambda x: x[1]))
+    print("First 10 nodes: {}".format(nodes[:10]))
     nodes, node_types = list(nodes), list(node_types)
     node_to_idx = {u: i for i, u in enumerate(nodes)}
     edge_with_feats = [(node_to_idx[u], node_to_idx[v], t, f) for (u, v, t), f in zip(edges, edge_feats)]
@@ -123,6 +124,7 @@ def load_dataset_csv(dataset_name, group="train", variant=None, get_edges=True,
         "buyer_to_idx": None,
         "edge_feats": edge_feats,
         "edges": edges,  # edges are in time order. edge_feats follows same order
+        "edges_with_feats": edge_with_feats,
         "bad_edges": bad_edges,
         "labels_items": labels_items,
         "labels_users": labels_users,
