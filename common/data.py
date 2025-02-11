@@ -77,12 +77,10 @@ def load_dataset_csv(dataset_name, group="train", variant=None, get_edges=True,
         removed_users}
     graph.add_edges_from([x[:2] for x in edges])
     nodes, node_types = zip(*sorted(node_types.items(), key=lambda x: x[1]))
-    print("First 10 nodes: {}".format(nodes[:10]))
     nodes, node_types = list(nodes), list(node_types)
     node_to_idx = {u: i for i, u in enumerate(nodes)}
-    edge_with_feats = [(node_to_idx[u], node_to_idx[v], t, f) for (u, v, t), f in zip(edges, edge_feats)]
+    edges_with_feats = [(node_to_idx[u], node_to_idx[v], t, f) for (u, v, t), f in zip(edges, edge_feats)]
     edges = [(node_to_idx[u], node_to_idx[v], t) for u, v, t in edges]
-
     mat_flat = nx.to_scipy_sparse_array(graph, nodelist=nodes)
     labels = np.array([1 if x in users and x in bad_users else 0 for x in
         nodes])
@@ -97,7 +95,7 @@ def load_dataset_csv(dataset_name, group="train", variant=None, get_edges=True,
 
     print("Mean bad edge feats: {}".format(mean_bad_edge_feats))
 
-    for edge in edge_with_feats:
+    for edge in edges_with_feats:
         u, v, t, feats = edge
         if u in full_bad_edges and feats not in full_bad_edges[u]:
             full_bad_edges[u].append(feats)
@@ -124,7 +122,7 @@ def load_dataset_csv(dataset_name, group="train", variant=None, get_edges=True,
         "buyer_to_idx": None,
         "edge_feats": edge_feats,
         "edges": edges,  # edges are in time order. edge_feats follows same order
-        "edges_with_feats": edge_with_feats,
+        "edges_with_feats": edges_with_feats,
         "bad_edges": bad_edges,
         "labels_items": labels_items,
         "labels_users": labels_users,
