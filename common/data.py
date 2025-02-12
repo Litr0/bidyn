@@ -78,8 +78,18 @@ def load_dataset_csv(dataset_name, group="train", variant=None, get_edges=True,
     graph.add_edges_from([x[:2] for x in edges])
     nodes, node_types = zip(*sorted(node_types.items(), key=lambda x: x[1]))
     nodes, node_types = list(nodes), list(node_types)
+    print("Last 5 nodes: {}".format(nodes[-5:]))
     node_to_idx = {u: i for i, u in enumerate(nodes)}
-    edges_with_feats = [(node_to_idx[u], node_to_idx[v], t, f) for (u, v, t), f in zip(edges, edge_feats)]
+    edges_with_feats = {}
+    for (u, v, t), feats in zip(edges, edge_feats):
+        if u not in edges_with_feats:
+            edges_with_feats[u] = []
+        edges_with_feats[u].append((v, t, feats))
+    for i, x in enumerate(nodes):
+        if x in users and x in bad_users:
+            edges_with_feats[x].append(i, 1)
+        elif x in users:
+            edges_with_feats[x].append(i, 0)
     edges = [(node_to_idx[u], node_to_idx[v], t) for u, v, t in edges]
     mat_flat = nx.to_scipy_sparse_array(graph, nodelist=nodes)
     labels = np.array([1 if x in users and x in bad_users else 0 for x in
@@ -152,13 +162,8 @@ def get_edge_lists(dataset):
     edge_feats = dataset["edge_feats"]
     labels = dataset["labels"]
     to_compare_labels = [[] for _ in range(len(us))]
-    bad_edges_feats = [f for i, f in enumerate(edge_feats) if i in bad_edges]
     us_to_edges_labels = [[] for _ in range(len(us))]
     vs_to_edges_labels = [[] for _ in range(len(vs))]
-    success_1 = 0
-    error_1 = 0
-    success_0 = 0
-    error_0 = 0
     for (u, v, t), feats, label_us in tqdm(zip(dataset["edges"], edge_feats, dataset["labels_users"]), total=len(dataset["edges"])):
         if not (dataset["asin_filter"][u] and dataset["buyer_filter"][v]):
             continue
