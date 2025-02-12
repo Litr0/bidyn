@@ -87,9 +87,9 @@ def load_dataset_csv(dataset_name, group="train", variant=None, get_edges=True,
         edges_with_feats[u].append((v, t, feats))
     for i, x in enumerate(nodes):
         if x in users and x in bad_users:
-            edges_with_feats[x].append(i, 1)
+            edges_with_feats[x].append((i, 1))
         elif x in users:
-            edges_with_feats[x].append(i, 0)
+            edges_with_feats[x].append((i, 0))
     edges = [(node_to_idx[u], node_to_idx[v], t) for u, v, t in edges]
     mat_flat = nx.to_scipy_sparse_array(graph, nodelist=nodes)
     labels = np.array([1 if x in users and x in bad_users else 0 for x in
