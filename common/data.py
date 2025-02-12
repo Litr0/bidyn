@@ -80,17 +80,6 @@ def load_dataset_csv(dataset_name, group="train", variant=None, get_edges=True,
     nodes, node_types = list(nodes), list(node_types)
     node_to_idx = {u: i for i, u in enumerate(nodes)}
     edges_with_feats = [(node_to_idx[u], node_to_idx[v], t, f) for (u, v, t), f in zip(edges, edge_feats)]
-    edges_by_user_with_labels = {}
-    for (u, v, t), feats in zip(edges, edge_feats):
-        if u not in edges_by_user_with_labels:
-            edges_by_user_with_labels[u] = []
-        edges_by_user_with_labels[u].append((v, t, feats))
-    for i, x in enumerate(nodes):
-        if x in users and x in bad_users:
-            edges_by_user_with_labels[x].append((i, 1))
-        elif x in users:
-            edges_by_user_with_labels[x].append((i, 0))
-    print("First key + value in edges_by_user_with_labels: {}".format(list(edges_by_user_with_labels.items())[0]))
     edges = [(node_to_idx[u], node_to_idx[v], t) for u, v, t in edges]
     mat_flat = nx.to_scipy_sparse_array(graph, nodelist=nodes)
     labels = np.array([1 if x in users and x in bad_users else 0 for x in
