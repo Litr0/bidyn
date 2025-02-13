@@ -770,6 +770,8 @@ def train(args, dataset):
             # save predictions
             with open(args.out_preds_path, "wb") as f:
                 pickle.dump({
+                    'u_labels': u_labels,
+                    'u_to_idx': u_to_idx,
                     'train_logp': train_logp,
                     'train_labels': train_labels,
                     'val_logp': val_logp,
