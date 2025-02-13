@@ -125,7 +125,7 @@ def load_dataset(args):
     labels_items = dataset["labels_items"]
     edge_feats = dataset["edge_feats"]
     bad_edges = dataset["bad_edges"]
-    labels = dataset["labels"]
+    d_labels = dataset["labels"]
     edges = dataset["edges"]
     bad_edges_feats = [f for i, f in enumerate(edge_feats) if i in bad_edges]
     u_labels = torch.zeros(len(us_to_edges), dtype=torch.long)
