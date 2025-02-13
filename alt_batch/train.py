@@ -229,7 +229,7 @@ def load_dataset(args):
     return (us_to_edges, vs_to_edges, u_labels, v_labels, train_us, u_train_mask,
         u_val_mask, u_test_mask, feat_dim, event_counts_u, event_counts_v,
         u_to_idx, v_to_idx, mat_flat, u_feats, v_feats, bad_items_idx, bad_items, labels_items, edge_feats, 
-        train_feats, val_feats, test_feats, bad_edges_feats, bad_edges)
+        train_feats, val_feats, test_feats, bad_edges_feats, bad_edges, d_labels)
 
 max_time_cache = None
 def get_batch(args, model, batch, batch_idxs, lengths,
@@ -319,7 +319,7 @@ def train(args, dataset):
     (us_to_edges, vs_to_edges, u_labels, v_labels, train_us, u_train_mask,
         u_val_mask, u_test_mask, feat_dim, event_counts_u, event_counts_v,
         u_to_idx, v_to_idx, mat_flat, u_feats, v_feats, bad_items_idx, bad_items, labels_items, edge_features,
-        train_feats, val_feats, test_feats, bad_edges_feats, bad_edges) = dataset
+        train_feats, val_feats, test_feats, bad_edges_feats, bad_edges, d_labels) = dataset
     
     dataset_name = args.dataset
     device = torch.device(args.device)
@@ -772,6 +772,7 @@ def train(args, dataset):
                 pickle.dump({
                     'u_labels': u_labels,
                     'u_to_idx': u_to_idx,
+                    'd_labels': d_labels,
                     'train_logp': train_logp,
                     'train_labels': train_labels,
                     'val_logp': val_logp,
