@@ -772,6 +772,10 @@ def train(args, dataset):
                 pickle.dump({
                     'u_labels': u_labels,
                     'u_to_idx': u_to_idx,
+                    'train_us': train_us,
+                    'u_train_mask': u_train_mask,
+                    'u_val_mask': u_val_mask,
+                    'u_test_mask': u_test_mask,
                     'd_labels': d_labels,
                     'train_logp': train_logp,
                     'train_labels': train_labels,
