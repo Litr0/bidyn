@@ -403,6 +403,7 @@ def train(args, dataset):
                             s_idx = batch_n * batch_size
                             e_idx = min((batch_n+1)*batch_size, len(batch_pts))
                             batch_idxs = batch_pts[s_idx:e_idx]
+                            print("Batch idxs:", batch_idxs)
                             batch = [side_to_edges[idx] for idx in batch_idxs]
                             lengths = [len(l) for l in batch]
 

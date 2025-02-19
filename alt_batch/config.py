@@ -18,7 +18,7 @@ def parse_args():
     parser.add_argument('--debug', action="store_true")
     parser.add_argument('--node_feats', type=str, default="")
     parser.add_argument('--out_embs_path', type=str, default="out/embs.pt")
-    parser.add_argument('--out_preds_path', type=str, default="out/preds_1.pt")
+    parser.add_argument('--out_preds_path', type=str, default="out/preds_2.pt")
     parser.add_argument('--saved_embs_path', type=str, default="out/embs.pt")
     parser.add_argument('--pretrain_variant', type=str, default="raq")
     parser.add_argument('--agg', type=str, default="mean")
