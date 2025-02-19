@@ -383,6 +383,7 @@ def train(args, dataset):
         train_logp_vs, train_labels_vs = [], []
         val_logp_vs, val_labels_vs = [], []
         s_train_mask, s_test_mask, s_val_mask = None, None, None
+        batch_idxs_array = []
         for group in ["train", "val"]:
             if group == "train":
                 model.train()
@@ -404,6 +405,7 @@ def train(args, dataset):
                             e_idx = min((batch_n+1)*batch_size, len(batch_pts))
                             batch_idxs = batch_pts[s_idx:e_idx]
                             print("Batch idxs:", batch_idxs)
+                            batch_idxs_array.append(batch_idxs)
                             batch = [side_to_edges[idx] for idx in batch_idxs]
                             lengths = [len(l) for l in batch]
 
@@ -774,6 +776,7 @@ def train(args, dataset):
                     'u_labels': u_labels,
                     'u_to_idx': u_to_idx,
                     'train_us': train_us,
+                    'batch_idxs_array': batch_idxs_array,
                     'u_train_mask': u_train_mask,
                     'u_val_mask': u_val_mask,
                     'u_test_mask': u_test_mask,
